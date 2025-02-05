@@ -6,8 +6,11 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./loading-spinner";
 import ModeToggle from "./mode-toggle";
+import { useTheme } from "next-themes";
+import Logo from "./logo";
 
 export default function ImageUpload() {
+  const { theme } = useTheme();
   const { image, setImage, setAnalyze, loading, setLoading } = useFile();
   const [base64IMG, setBase64IMG] = useState<string>();
 
@@ -40,8 +43,6 @@ export default function ImageUpload() {
       data: { image: base64IMG },
     });
 
-    console.log(data);
-
     setLoading(false);
 
     setAnalyze(data.candidates[0].content.parts[0].text);
@@ -53,11 +54,19 @@ export default function ImageUpload() {
     >
       {/* App Info */}
       <div
-        className={`text-center max-w-fit space-y-2 mx-auto flex flex-col items-center`}
+        className={`text-center max-w-fit space-y-4 mx-auto flex flex-col items-center`}
       >
-        <h1 className={`text-4xl font-bold`}>
-          {process.env.NEXT_PUBLIC_APP_NAME}
-        </h1>
+        <div className={`flex items-center gap-2`}>
+          <Logo
+            variant={theme === "dark" ? "dark" : "light"}
+            width={40}
+            height={40}
+          />
+
+          <h1 className={`text-4xl font-bold`}>
+            {process.env.NEXT_PUBLIC_APP_NAME}
+          </h1>
+        </div>
         <p className={`text-pretty max-w-[80%]`}>
           {process.env.NEXT_PUBLIC_APP_DESCRIPTION}
         </p>
