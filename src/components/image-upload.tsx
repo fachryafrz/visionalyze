@@ -128,7 +128,7 @@ export default function ImageUpload() {
           defaultValue={TAB_UPLOAD}
           value={tab}
           onValueChange={onTabChange}
-          className="flex flex-col items-center"
+          className="flex flex-col items-center w-full"
         >
           <TabsList className={`rounded-full [&>*]:rounded-full`}>
             <TabsTrigger value={TAB_UPLOAD}>Upload</TabsTrigger>
@@ -136,7 +136,7 @@ export default function ImageUpload() {
           </TabsList>
           <TabsContent value={TAB_UPLOAD}>
             <div
-              className={`border max-w-sm flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
             >
               {/* Input */}
               <input
@@ -160,7 +160,7 @@ export default function ImageUpload() {
           </TabsContent>
           <TabsContent value={TAB_URL}>
             <div
-              className={`border max-w-sm flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
             >
               {/* Input */}
               <Input
