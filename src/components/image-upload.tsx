@@ -5,7 +5,7 @@ import { useFile } from "@/app/zustand/file";
 import { useState } from "react";
 
 export default function ImageUpload() {
-  const { image, setImage, setAnalyze } = useFile();
+  const { image, setImage, setAnalyze, setLoading } = useFile();
   const [base64IMG, setBase64IMG] = useState<string>();
 
   const convertToBase64 = (file: File) => {
@@ -27,6 +27,10 @@ export default function ImageUpload() {
   };
 
   const handleGenerate = async () => {
+    if (!base64IMG) return;
+    
+    setLoading(true);
+
     const { data } = await fetchData(`/api/generate`, {
       baseURL: process.env.NEXT_PUBLIC_APP_URL,
       method: "POST",
@@ -34,6 +38,8 @@ export default function ImageUpload() {
     });
 
     console.log(data);
+
+    setLoading(false);
 
     setAnalyze(data.candidates[0].content.parts[0].text);
   };

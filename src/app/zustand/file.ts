@@ -6,6 +6,9 @@ type FileType = {
 
   analyze: string;
   setAnalyze: (analyze: string) => void;
+
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 };
 
 export const useFile = create<FileType>()((set) => ({
@@ -14,4 +17,7 @@ export const useFile = create<FileType>()((set) => ({
 
   analyze: "",
   setAnalyze: (analyze) => set({ analyze }),
+
+  loading: false,
+  setLoading: (loading) => set({ loading }),
 }));
