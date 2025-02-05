@@ -1,7 +1,8 @@
 "use client";
 
 import { useFile } from "@/app/zustand/file";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 type Response = {
   image_information: string;
@@ -11,9 +12,15 @@ type Response = {
 };
 
 export default function ImageResponse() {
-  const { image, analyze: rawData, loading } = useFile();
+  const { image, analyze: rawData } = useFile();
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [response, setResponse] = useState<Response | null>(null);
+
+  const handleSonner = () => {
+    toast("Feature coming soon!");
+  };
 
   useEffect(() => {
     setResponse(null);
@@ -27,47 +34,58 @@ export default function ImageResponse() {
     setResponse(JSON.parse(formattedResponse));
   }, [rawData]);
 
+  useEffect(() => {
+    if (response && containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [response]);
+
   return (
     <>
-      {loading && <div>Loading...</div>}
-
-      {!loading && response && (
-        <div className={`space-y-4`}>
-          <div>
-            <h2 className={`text-xl font-bold`}>Image</h2>
-            <p>{response.image_information}</p>
-          </div>
-          <div>
-            <h2 className={`text-xl font-bold`}>Description</h2>
-            <p>{response.important_information}</p>
-          </div>
-          <div>
-            <h2 className={`text-xl font-bold`}>Related Keywords</h2>
-            <ul className={`flex gap-2`}>
-              {response.related_keywords.map((keywords: string) => (
-                <li key={keywords}>
-                  <button
-                    className={`p-2 text-sm bg-neutral-800 rounded-md hocus:bg-neutral-600`}
-                  >
-                    {`#${keywords}`}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className={`text-xl font-bold`}>Related Questions</h2>
-            <ul className={`space-y-1`}>
-              {response.related_questions.map((questions: string) => (
-                <li key={questions}>
-                  <button
-                    className={`p-2 text-sm bg-neutral-800 rounded-md hocus:bg-neutral-600`}
-                  >
-                    {questions}
-                  </button>
-                </li>
-              ))}
-            </ul>
+      {response && (
+        <div
+          ref={containerRef}
+          className={`dark:bg-black space-y-8 bg-white max-w-6xl mx-auto p-8 rounded-xl drop-shadow-xl dark:border`}
+        >
+          <div className={`space-y-8`}>
+            <div className={`space-y-1`}>
+              <h2 className={`text-xl font-bold`}>Image</h2>
+              <p>{response.image_information}</p>
+            </div>
+            <div className={`space-y-1`}>
+              <h2 className={`text-xl font-bold`}>Description</h2>
+              <p>{response.important_information}</p>
+            </div>
+            <div className={`space-y-1`}>
+              <h2 className={`text-xl font-bold`}>Related Keywords</h2>
+              <ul className={`flex gap-1 flex-wrap`}>
+                {response.related_keywords.map((keywords: string) => (
+                  <li key={keywords}>
+                    <button
+                      onClick={handleSonner}
+                      className={`p-2 text-sm text-start bg-neutral-800 rounded-md hocus:bg-neutral-600`}
+                    >
+                      {`#${keywords}`}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className={`space-y-1`}>
+              <h2 className={`text-xl font-bold`}>Related Questions</h2>
+              <ul className={`space-y-1`}>
+                {response.related_questions.map((questions: string) => (
+                  <li key={questions}>
+                    <button
+                      onClick={handleSonner}
+                      className={`p-2 text-sm text-start bg-neutral-800 rounded-md hocus:bg-neutral-600`}
+                    >
+                      {questions}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}
