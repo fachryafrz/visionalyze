@@ -49,7 +49,7 @@ export default function ImageResponse() {
         >
           <div className={`space-y-8`}>
             <div className={`space-y-1`}>
-              <h2 className={`text-xl font-bold`}>Image</h2>
+              <h2 className={`text-xl font-bold`}>Title</h2>
               <p>{response.image_information}</p>
             </div>
             <div className={`space-y-1`}>
