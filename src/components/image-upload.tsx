@@ -15,7 +15,7 @@ import { SELECTED_TAB, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
 import debounce from "debounce";
 
 export default function ImageUpload() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const { image, setImage, setAnalyze, loading, setLoading } = useFile();
   const [base64IMG, setBase64IMG] = useState<string | null>();
   const [tab, setTab] = useState<string>();
@@ -108,7 +108,7 @@ export default function ImageUpload() {
       >
         <div className={`flex items-center gap-2`}>
           <Logo
-            variant={theme === "dark" ? "dark" : "light"}
+            variant={resolvedTheme as "dark" | "light"}
             width={40}
             height={40}
           />
