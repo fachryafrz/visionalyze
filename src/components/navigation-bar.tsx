@@ -13,7 +13,7 @@ export default function NavigationBar() {
         </Button>
 
         {/* Mode Toggle */}
-        <ModeToggle />
+        <ModeToggle variant="ghost" />
       </nav>
     </header>
   );
