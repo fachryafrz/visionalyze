@@ -13,12 +13,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "./ui/input";
 import { SELECTED_TAB, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
 import debounce from "debounce";
+import { toast } from "sonner";
+import { CircleCheck, OctagonX } from "lucide-react";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
   const { image, setImage, setAnalyze, loading, setLoading } = useFile();
   const [base64IMG, setBase64IMG] = useState<string | null>();
   const [tab, setTab] = useState<string>();
+  const [text, setText] = useState<string | null>();
 
   const onTabChange = (value: string) => {
     localStorage.setItem(SELECTED_TAB, value);
@@ -39,10 +42,32 @@ export default function ImageUpload() {
   const handleChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 0) return;
 
+    const imgSize = e.target.files![0].size / 1024 / 1024;
+
+    if (imgSize > 1) {
+      toast(
+        `Image size must be less than 1MB. Current size: ${imgSize.toFixed(
+          2
+        )}MB`,
+        {
+          icon: <OctagonX />,
+          className: "!bg-destructive gap-3",
+        }
+      );
+      return;
+    }
+
+    setText(null);
+
     const value = e.target.files![0];
 
     convertToBase64(value);
     setImage(URL.createObjectURL(value));
+
+    toast(`Image loaded successfully!`, {
+      icon: <CircleCheck />,
+      className: "gap-3",
+    });
   };
 
   const handleChangeInputText = debounce(
@@ -54,10 +79,25 @@ export default function ImageUpload() {
         return;
       }
 
-      const base64 = await fetch(value).then((response) => response.blob());
+      try {
+        const base64 = await fetch(value).then((response) => response.blob());
 
-      convertToBase64(base64);
-      setImage(value);
+        convertToBase64(base64);
+        setImage(value);
+
+        toast(`Image loaded successfully!`, {
+          icon: <CircleCheck />,
+          className: "gap-3",
+        });
+      } catch {
+        toast(
+          `Failed to load image. This image may be licensed and restricted from external use.`,
+          {
+            icon: <OctagonX />,
+            className: "!bg-destructive gap-3",
+          }
+        );
+      }
     },
     300
   );
@@ -75,17 +115,17 @@ export default function ImageUpload() {
       });
 
       setAnalyze(data.candidates[0].content.parts[0].text);
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      const error = e as Error;
+
+      toast(error.message, {
+        icon: <OctagonX />,
+        className: "!bg-destructive gap-3",
+      });
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    setBase64IMG(null);
-    setAnalyze(null);
-  }, [tab]);
 
   useEffect(() => {
     const selectedTab = localStorage.getItem(SELECTED_TAB);
@@ -144,7 +184,7 @@ export default function ImageUpload() {
                 accept="image/*"
                 onChange={handleChangeInputFile}
                 disabled={loading}
-                className={`block w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10`}
+                className={`block w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10 disabled:cursor-not-allowed disabled:opacity-50`}
               />
 
               {/* Generate */}
@@ -165,7 +205,11 @@ export default function ImageUpload() {
               {/* Input */}
               <Input
                 type="text"
-                onChange={handleChangeInputText}
+                value={text || ""}
+                onChange={(e) => {
+                  setText(e.target.value);
+                  handleChangeInputText(e);
+                }}
                 disabled={loading}
                 placeholder={`Type your image URL`}
                 className={`border-0 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
@@ -188,12 +232,12 @@ export default function ImageUpload() {
       {/* Preview */}
       {image && (
         <div className={`flex justify-center`}>
-          <div className={`h-[300px] w-fit`}>
+          <div className={`w-fit`}>
             <img
               src={image}
               alt=""
               draggable={false}
-              className={`w-full h-full object-contain`}
+              className={`w-full h-full object-contain max-h-[300px] `}
             />
           </div>
         </div>

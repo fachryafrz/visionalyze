@@ -1,6 +1,7 @@
 "use client";
 
 import { useFile } from "@/app/zustand/file";
+import { TriangleAlert } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -19,7 +20,10 @@ export default function ImageResponse() {
   const [response, setResponse] = useState<Response | null>(null);
 
   const handleSonner = () => {
-    toast("Feature coming soon!");
+    toast(`Feature coming soon!`, {
+      icon: <TriangleAlert />,
+      className: "gap-3",
+    });
   };
 
   useEffect(() => {
