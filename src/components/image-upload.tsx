@@ -49,7 +49,7 @@ export default function ImageUpload() {
 
   return (
     <div
-      className={`dark:bg-black relative space-y-8 bg-white max-w-6xl mx-auto p-8 rounded-xl drop-shadow-xl dark:border`}
+      className={`dark:bg-black relative space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-xl dark:border`}
     >
       {/* App Info */}
       <div

@@ -45,7 +45,7 @@ export default function ImageResponse() {
       {response && (
         <div
           ref={containerRef}
-          className={`dark:bg-black space-y-8 bg-white max-w-6xl mx-auto p-8 rounded-xl drop-shadow-xl dark:border`}
+          className={`dark:bg-black space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-xl dark:border`}
         >
           <div className={`space-y-8`}>
             <div className={`space-y-1`}>

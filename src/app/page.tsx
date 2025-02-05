@@ -3,7 +3,7 @@ import ImageUpload from "@/components/image-upload";
 
 export default function page() {
   return (
-    <div className={`space-y-8 p-8`}>
+    <div className={`space-y-8 p-4 sm:p-8`}>
       <ImageUpload />
 
       <ImageResponse />
