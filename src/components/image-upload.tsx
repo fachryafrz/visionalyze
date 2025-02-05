@@ -83,8 +83,8 @@ export default function ImageUpload() {
   };
 
   useEffect(() => {
-    setImage(null);
     setBase64IMG(null);
+    setAnalyze(null);
   }, [tab]);
 
   useEffect(() => {
@@ -143,6 +143,7 @@ export default function ImageUpload() {
                 type="file"
                 accept="image/*"
                 onChange={handleChangeInputFile}
+                disabled={loading}
                 className={`block w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10`}
               />
 
@@ -150,6 +151,7 @@ export default function ImageUpload() {
               <Button
                 variant={"secondary"}
                 onClick={handleGenerate}
+                disabled={loading}
                 className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
               >
                 {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
@@ -164,6 +166,7 @@ export default function ImageUpload() {
               <Input
                 type="text"
                 onChange={handleChangeInputText}
+                disabled={loading}
                 placeholder={`Type your image URL`}
                 className={`border-0 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
@@ -172,6 +175,7 @@ export default function ImageUpload() {
               <Button
                 variant={"secondary"}
                 onClick={handleGenerate}
+                disabled={loading}
                 className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
               >
                 {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
