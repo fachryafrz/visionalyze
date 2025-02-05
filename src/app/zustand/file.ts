@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 type FileType = {
   image: string;
-  setImage: (image: string) => void;
+  setImage: (image: string | null) => void;
 
   analyze: string;
   setAnalyze: (analyze: string) => void;
@@ -13,7 +13,7 @@ type FileType = {
 
 export const useFile = create<FileType>()((set) => ({
   image: "",
-  setImage: (image) => set({ image }),
+  setImage: (image) => set({ image: image ?? "" }),
 
   analyze: "",
   setAnalyze: (analyze) => set({ analyze }),

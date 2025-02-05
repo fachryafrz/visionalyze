@@ -33,8 +33,6 @@ export async function POST(request: Request) {
       { params: { key } }
     );
 
-    console.log(data);
-
     return NextResponse.json(data, { status });
   } catch (error) {
     const { message, status } = error as { message: string; status: number };

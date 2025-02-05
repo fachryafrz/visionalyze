@@ -1,23 +1,32 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { fetchData } from "@/app/server/actions";
 import { useFile } from "@/app/zustand/file";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./loading-spinner";
 import ModeToggle from "./mode-toggle";
 import { useTheme } from "next-themes";
 import Logo from "./logo";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "./ui/input";
 
 export default function ImageUpload() {
   const { theme } = useTheme();
   const { image, setImage, setAnalyze, loading, setLoading } = useFile();
-  const [base64IMG, setBase64IMG] = useState<string>();
+  const [base64IMG, setBase64IMG] = useState<string | null>();
 
-  const convertToBase64 = (file: File) => {
+  const [tab, setTab] = useState<string>();
+
+  const onTabChange = (value: string) => {
+    setTab(value);
+  };
+
+  const convertToBase64 = (file: Blob) => {
     const reader = new FileReader();
 
-    reader.readAsDataURL(file as Blob);
+    reader.readAsDataURL(file);
 
     reader.onload = () => {
       const base64 = (reader.result as string).split(",")[1];
@@ -25,11 +34,25 @@ export default function ImageUpload() {
     };
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 0) return;
 
-    convertToBase64(e.target.files![0]);
-    setImage(URL.createObjectURL(e.target.files![0]));
+    const value = e.target.files![0];
+
+    convertToBase64(value);
+    setImage(URL.createObjectURL(value));
+  };
+
+  const handleChangeInputText = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (!e.target.value) return;
+
+    const value = e.target.value;
+    const base64 = await fetch(value).then((response) => response.blob());
+
+    convertToBase64(base64);
+    setImage(value);
   };
 
   const handleGenerate = async () => {
@@ -47,6 +70,11 @@ export default function ImageUpload() {
 
     setAnalyze(data.candidates[0].content.parts[0].text);
   };
+
+  useEffect(() => {
+    setImage(null);
+    setBase64IMG(null);
+  }, [tab]);
 
   return (
     <div
@@ -72,27 +100,62 @@ export default function ImageUpload() {
         </p>
       </div>
 
-      <div className={`flex justify-center`}>
-        <div
-          className={`border flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+      <div className={`flex flex-col gap-2 items-center`}>
+        {/* Toggle File Upload or URL */}
+        <Tabs
+          defaultValue="url"
+          onValueChange={onTabChange}
+          className="flex flex-col items-center"
         >
-          {/* Input */}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            className={`block w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10`}
-          />
+          <TabsList className={`rounded-full [&>*]:rounded-full`}>
+            <TabsTrigger value="upload">Upload</TabsTrigger>
+            <TabsTrigger value="url">URL</TabsTrigger>
+          </TabsList>
+          <TabsContent value="upload">
+            <div
+              className={`border max-w-sm flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+            >
+              {/* Input */}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleChangeInputFile}
+                className={`block w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10`}
+              />
 
-          {/* Generate */}
-          <Button
-            variant={"secondary"}
-            onClick={handleGenerate}
-            className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
-          >
-            {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
-          </Button>
-        </div>
+              {/* Generate */}
+              <Button
+                variant={"secondary"}
+                onClick={handleGenerate}
+                className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
+              >
+                {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
+              </Button>
+            </div>
+          </TabsContent>
+          <TabsContent value="url">
+            <div
+              className={`border max-w-sm flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+            >
+              {/* Input */}
+              <Input
+                type="text"
+                onChange={handleChangeInputText}
+                placeholder={`Type your image URL`}
+                className={`border-0 bg-transparent rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+              />
+
+              {/* Generate */}
+              <Button
+                variant={"secondary"}
+                onClick={handleGenerate}
+                className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
+              >
+                {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* Preview */}
