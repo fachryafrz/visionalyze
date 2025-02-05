@@ -50,7 +50,7 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" className={`scroll-pt-4 sm:scroll-pt-8`}>
       <body
         className={`${roboto.className} antialiased bg-slate-100 dark:bg-background`}
       >

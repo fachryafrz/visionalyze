@@ -11,15 +11,17 @@ import { useTheme } from "next-themes";
 import Logo from "./logo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "./ui/input";
+import { SELECTED_TAB, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
+import debounce from "debounce";
 
 export default function ImageUpload() {
   const { theme } = useTheme();
   const { image, setImage, setAnalyze, loading, setLoading } = useFile();
   const [base64IMG, setBase64IMG] = useState<string | null>();
-
   const [tab, setTab] = useState<string>();
 
   const onTabChange = (value: string) => {
+    localStorage.setItem(SELECTED_TAB, value);
     setTab(value);
   };
 
@@ -43,38 +45,58 @@ export default function ImageUpload() {
     setImage(URL.createObjectURL(value));
   };
 
-  const handleChangeInputText = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (!e.target.value) return;
+  const handleChangeInputText = debounce(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
 
-    const value = e.target.value;
-    const base64 = await fetch(value).then((response) => response.blob());
+      if (!value) {
+        setImage(null);
+        return;
+      }
 
-    convertToBase64(base64);
-    setImage(value);
-  };
+      const base64 = await fetch(value).then((response) => response.blob());
+
+      convertToBase64(base64);
+      setImage(value);
+    },
+    300
+  );
 
   const handleGenerate = async () => {
     if (!base64IMG) return;
 
     setLoading(true);
 
-    const { data } = await fetchData(`/api/generate`, {
-      baseURL: process.env.NEXT_PUBLIC_APP_URL,
-      method: "POST",
-      data: { image: base64IMG },
-    });
+    try {
+      const { data } = await fetchData(`/api/generate`, {
+        baseURL: process.env.NEXT_PUBLIC_APP_URL,
+        method: "POST",
+        data: { image: base64IMG },
+      });
 
-    setLoading(false);
-
-    setAnalyze(data.candidates[0].content.parts[0].text);
+      setAnalyze(data.candidates[0].content.parts[0].text);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     setImage(null);
     setBase64IMG(null);
   }, [tab]);
+
+  useEffect(() => {
+    const selectedTab = localStorage.getItem(SELECTED_TAB);
+
+    if (!selectedTab) {
+      localStorage.setItem(SELECTED_TAB, TAB_UPLOAD);
+      setTab(TAB_UPLOAD);
+    } else {
+      setTab(selectedTab);
+    }
+  }, []);
 
   return (
     <div
@@ -103,15 +125,16 @@ export default function ImageUpload() {
       <div className={`flex flex-col gap-2 items-center`}>
         {/* Toggle File Upload or URL */}
         <Tabs
-          defaultValue="url"
+          defaultValue={TAB_UPLOAD}
+          value={tab}
           onValueChange={onTabChange}
           className="flex flex-col items-center"
         >
           <TabsList className={`rounded-full [&>*]:rounded-full`}>
-            <TabsTrigger value="upload">Upload</TabsTrigger>
-            <TabsTrigger value="url">URL</TabsTrigger>
+            <TabsTrigger value={TAB_UPLOAD}>Upload</TabsTrigger>
+            <TabsTrigger value={TAB_URL}>URL</TabsTrigger>
           </TabsList>
-          <TabsContent value="upload">
+          <TabsContent value={TAB_UPLOAD}>
             <div
               className={`border max-w-sm flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
             >
@@ -133,7 +156,7 @@ export default function ImageUpload() {
               </Button>
             </div>
           </TabsContent>
-          <TabsContent value="url">
+          <TabsContent value={TAB_URL}>
             <div
               className={`border max-w-sm flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
             >
@@ -142,7 +165,7 @@ export default function ImageUpload() {
                 type="text"
                 onChange={handleChangeInputText}
                 placeholder={`Type your image URL`}
-                className={`border-0 bg-transparent rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+                className={`border-0 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
 
               {/* Generate */}
