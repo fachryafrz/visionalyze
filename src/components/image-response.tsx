@@ -63,7 +63,7 @@ export default function ImageResponse() {
                   <li key={keywords}>
                     <button
                       onClick={handleSonner}
-                      className={`p-2 text-sm text-start bg-neutral-800 rounded-md hocus:bg-neutral-600`}
+                      className={`p-2 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
                     >
                       {`#${keywords}`}
                     </button>
@@ -78,7 +78,7 @@ export default function ImageResponse() {
                   <li key={questions}>
                     <button
                       onClick={handleSonner}
-                      className={`p-2 text-sm text-start bg-neutral-800 rounded-md hocus:bg-neutral-600`}
+                      className={`p-2 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
                     >
                       {questions}
                     </button>
