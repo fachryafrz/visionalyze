@@ -5,3 +5,9 @@ export type GeminiAPIError = {
     status: string;
   };
 };
+
+export type AnalyzeButtonProps = {
+  loading: boolean;
+  handleGenerate: () => void;
+  handleClear: () => void;
+};
