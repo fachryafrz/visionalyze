@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -49,6 +50,8 @@ type RootLayoutProps = {
   children: React.ReactNode;
 };
 
+const gtagId = process.env.GA_MEASUREMENT_ID;
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={`scroll-pt-4 sm:scroll-pt-8`}>
@@ -66,6 +69,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Toaster />
         </ThemeProvider>
 
+        <GoogleAnalytics gaId={gtagId || ""} />
         <Analytics />
       </body>
     </html>
