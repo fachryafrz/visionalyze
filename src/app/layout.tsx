@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Roboto } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -64,6 +65,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
           <Toaster />
         </ThemeProvider>
+
+        <Analytics />
       </body>
     </html>
   );
