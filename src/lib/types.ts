@@ -7,6 +7,7 @@ export type GeminiAPIError = {
 };
 
 export type AnalyzeButtonProps = {
+  image: string;
   loading: boolean;
   handleGenerate: () => void;
   handleClear: () => void;
