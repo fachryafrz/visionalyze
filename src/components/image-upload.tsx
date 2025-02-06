@@ -184,9 +184,10 @@ export default function ImageUpload() {
 
               {/* Generate */}
               <AnalyzeButton
+                image={image}
+                loading={loading}
                 handleGenerate={handleGenerate}
                 handleClear={handleClear}
-                loading={loading}
               />
             </div>
           </TabsContent>
@@ -209,9 +210,10 @@ export default function ImageUpload() {
 
               {/* Generate */}
               <AnalyzeButton
+                image={image}
+                loading={loading}
                 handleGenerate={handleGenerate}
                 handleClear={handleClear}
-                loading={loading}
               />
             </div>
           </TabsContent>
@@ -245,21 +247,24 @@ export default function ImageUpload() {
 }
 
 function AnalyzeButton({
+  loading,
+  image,
   handleGenerate,
   handleClear,
-  loading,
 }: AnalyzeButtonProps) {
   return (
     <>
-      <Button
-        variant={`ghost`}
-        size={`icon`}
-        disabled={loading}
-        className={`text-destructive rounded-full hocus:bg-destructive`}
-        onClick={handleClear}
-      >
-        <Trash2 className={`!w-6 !h-6`} />
-      </Button>
+      {image && (
+        <Button
+          variant={`ghost`}
+          size={`icon`}
+          disabled={loading}
+          className={`text-destructive rounded-full hocus:bg-destructive`}
+          onClick={handleClear}
+        >
+          <Trash2 className={`!w-6 !h-6`} />
+        </Button>
+      )}
 
       {/* Generate */}
       <Button
