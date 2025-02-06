@@ -73,7 +73,7 @@ export default function ImageResponse() {
                         onClick={handleSonner}
                         className={`p-2 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
                       >
-                        {`#${keywords}`}
+                        {`#${keywords.replace(" ", "")}`}
                       </button>
                     </li>
                   ))}
