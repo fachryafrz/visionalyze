@@ -1,6 +1,6 @@
 "use client";
 
-import { useFile } from "@/app/zustand/file";
+import { useFile } from "@/zustand/file";
 import { TriangleAlert } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

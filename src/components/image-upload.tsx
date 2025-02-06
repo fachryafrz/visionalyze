@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { analyzeImage } from "@/app/server/actions";
-import { useFile } from "@/app/zustand/file";
+import { anaylyze } from "@/server/actions";
+import { useFile } from "@/zustand/file";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./loading-spinner";
@@ -114,19 +114,9 @@ export default function ImageUpload() {
 
     setLoading(true);
 
-    const { data, error } = await analyzeImage(base64IMG);
+    const { text } = await anaylyze(base64IMG);
 
-    if (error) {
-      toast(error.message, {
-        icon: <OctagonX />,
-        className: "!bg-destructive gap-3",
-      });
-
-      setLoading(false);
-      return;
-    }
-
-    setAnalyze(data.candidates[0].content.parts[0].text);
+    setAnalyze(text);
 
     setLoading(false);
   };
@@ -204,7 +194,7 @@ export default function ImageUpload() {
           </TabsContent>
           <TabsContent value={TAB_URL}>
             <div
-              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-1`}
             >
               {/* Input */}
               <Input
@@ -216,8 +206,18 @@ export default function ImageUpload() {
                 }}
                 disabled={loading}
                 placeholder={`Type your image URL`}
-                className={`border-0 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+                className={`border-0 flex-1 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
+
+              <Button
+                variant={`ghost`}
+                size={`icon`}
+                disabled={loading}
+                className={`text-destructive rounded-full hocus:bg-destructive`}
+                onClick={handleClear}
+              >
+                <Trash2 className={`!w-6 !h-6`} />
+              </Button>
 
               {/* Generate */}
               <Button
@@ -244,16 +244,6 @@ export default function ImageUpload() {
               className={`w-full h-full object-contain max-h-[600px] `}
             />
           </div>
-
-          <Button
-            variant={`ghost`}
-            size={`icon`}
-            disabled={loading}
-            className={`text-destructive`}
-            onClick={handleClear}
-          >
-            <Trash2 className={`!w-6 !h-6`} />
-          </Button>
         </div>
       )}
 
