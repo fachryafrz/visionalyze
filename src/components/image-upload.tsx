@@ -44,7 +44,7 @@ export default function ImageUpload() {
 
     const imgSize = e.target.files![0].size / 1024 / 1024;
 
-    if (imgSize > 1) {
+    if (imgSize > 5) {
       toast(
         `Image size must be less than 1MB. Current size: ${imgSize.toFixed(
           2
