@@ -33,7 +33,7 @@ export default function ImageResponse() {
   useEffect(() => {
     if (!rawData) return;
 
-    const formattedResponse = rawData.replace(/\n/g, "");
+    const formattedResponse = rawData.replace(/```json|```/g, "");
 
     setResponse(JSON.parse(formattedResponse));
   }, [rawData]);

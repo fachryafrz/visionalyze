@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { fetchData } from "@/app/server/actions";
+import { analyzeImage } from "@/app/server/actions";
 import { useFile } from "@/app/zustand/file";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -114,24 +114,21 @@ export default function ImageUpload() {
 
     setLoading(true);
 
-    try {
-      const { data } = await fetchData(`/api/generate`, {
-        baseURL: process.env.NEXT_PUBLIC_APP_URL,
-        method: "POST",
-        data: { image: base64IMG },
-      });
+    const { data, error } = await analyzeImage(base64IMG);
 
-      setAnalyze(data.candidates[0].content.parts[0].text);
-    } catch (e) {
-      const error = e as Error;
-
+    if (error) {
       toast(error.message, {
         icon: <OctagonX />,
         className: "!bg-destructive gap-3",
       });
-    } finally {
+
       setLoading(false);
+      return;
     }
+
+    setAnalyze(data.candidates[0].content.parts[0].text);
+
+    setLoading(false);
   };
 
   useEffect(() => {
