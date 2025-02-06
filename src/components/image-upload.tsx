@@ -14,7 +14,7 @@ import { Input } from "./ui/input";
 import { SELECTED_TAB, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
 import debounce from "debounce";
 import { toast } from "sonner";
-import { CircleCheck, OctagonX } from "lucide-react";
+import { CircleCheck, OctagonX, Trash2 } from "lucide-react";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
@@ -26,6 +26,13 @@ export default function ImageUpload() {
   const onTabChange = (value: string) => {
     localStorage.setItem(SELECTED_TAB, value);
     setTab(value);
+  };
+
+  const handleClear = () => {
+    setImage(null);
+    setText(null);
+    setBase64IMG(null);
+    setAnalyze(null);
   };
 
   const convertToBase64 = (file: Blob) => {
@@ -140,7 +147,7 @@ export default function ImageUpload() {
 
   return (
     <div
-      className={`dark:bg-black relative space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-xl dark:border`}
+      className={`dark:bg-black relative space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-md hocus:drop-shadow-xl transition-all dark:border`}
     >
       {/* App Info */}
       <div
@@ -237,9 +244,18 @@ export default function ImageUpload() {
               src={image}
               alt=""
               draggable={false}
-              className={`w-full h-full object-contain max-h-[300px] `}
+              className={`w-full h-full object-contain max-h-[600px] `}
             />
           </div>
+
+          <Button
+            variant={`ghost`}
+            size={`icon`}
+            className={`text-destructive`}
+            onClick={handleClear}
+          >
+            <Trash2 className={`!w-6 !h-6`} />
+          </Button>
         </div>
       )}
 

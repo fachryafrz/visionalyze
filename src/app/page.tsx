@@ -1,3 +1,5 @@
+import Features from "@/components/features";
+import HowItWorks from "@/components/how-it-works";
 import ImageResponse from "@/components/image-response";
 import ImageUpload from "@/components/image-upload";
 
@@ -7,6 +9,10 @@ export default function page() {
       <ImageUpload />
 
       <ImageResponse />
+
+      <HowItWorks />
+
+      <Features />
     </div>
   );
 }

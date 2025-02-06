@@ -75,4 +75,10 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .before-content::before {
+    content: attr(data-before-content) !important;
+  }
+  .after-content::after {
+    content: attr(data-after-content) !important;
+  }
 }
