@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { analyzeImage } from "@/app/server/actions";
-import { useFile } from "@/app/zustand/file";
+import { anaylyze } from "@/server/actions";
+import { useFile } from "@/zustand/file";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./loading-spinner";
@@ -15,6 +15,7 @@ import { SELECTED_TAB, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
 import debounce from "debounce";
 import { toast } from "sonner";
 import { CircleCheck, OctagonX, Trash2 } from "lucide-react";
+import { AnalyzeButtonProps } from "@/lib/types";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
@@ -114,19 +115,9 @@ export default function ImageUpload() {
 
     setLoading(true);
 
-    const { data, error } = await analyzeImage(base64IMG);
+    const { text } = await anaylyze(base64IMG);
 
-    if (error) {
-      toast(error.message, {
-        icon: <OctagonX />,
-        className: "!bg-destructive gap-3",
-      });
-
-      setLoading(false);
-      return;
-    }
-
-    setAnalyze(data.candidates[0].content.parts[0].text);
+    setAnalyze(text);
 
     setLoading(false);
   };
@@ -180,7 +171,7 @@ export default function ImageUpload() {
           </TabsList>
           <TabsContent value={TAB_UPLOAD}>
             <div
-              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-1`}
             >
               {/* Input */}
               <input
@@ -188,23 +179,20 @@ export default function ImageUpload() {
                 accept="image/*"
                 onChange={handleChangeInputFile}
                 disabled={loading}
-                className={`block w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10 disabled:cursor-not-allowed disabled:opacity-50`}
+                className={`block flex-1 w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10 disabled:cursor-not-allowed disabled:opacity-50`}
               />
 
               {/* Generate */}
-              <Button
-                variant={"secondary"}
-                onClick={handleGenerate}
-                disabled={loading}
-                className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
-              >
-                {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
-              </Button>
+              <AnalyzeButton
+                handleGenerate={handleGenerate}
+                handleClear={handleClear}
+                loading={loading}
+              />
             </div>
           </TabsContent>
           <TabsContent value={TAB_URL}>
             <div
-              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-2`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-1`}
             >
               {/* Input */}
               <Input
@@ -216,18 +204,15 @@ export default function ImageUpload() {
                 }}
                 disabled={loading}
                 placeholder={`Type your image URL`}
-                className={`border-0 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+                className={`border-0 flex-1 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
 
               {/* Generate */}
-              <Button
-                variant={"secondary"}
-                onClick={handleGenerate}
-                disabled={loading}
-                className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
-              >
-                {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
-              </Button>
+              <AnalyzeButton
+                handleGenerate={handleGenerate}
+                handleClear={handleClear}
+                loading={loading}
+              />
             </div>
           </TabsContent>
         </Tabs>
@@ -244,16 +229,6 @@ export default function ImageUpload() {
               className={`w-full h-full object-contain max-h-[600px] `}
             />
           </div>
-
-          <Button
-            variant={`ghost`}
-            size={`icon`}
-            disabled={loading}
-            className={`text-destructive`}
-            onClick={handleClear}
-          >
-            <Trash2 className={`!w-6 !h-6`} />
-          </Button>
         </div>
       )}
 
@@ -266,5 +241,35 @@ export default function ImageUpload() {
         </div>
       </div>
     </div>
+  );
+}
+
+function AnalyzeButton({
+  handleGenerate,
+  handleClear,
+  loading,
+}: AnalyzeButtonProps) {
+  return (
+    <>
+      <Button
+        variant={`ghost`}
+        size={`icon`}
+        disabled={loading}
+        className={`text-destructive rounded-full hocus:bg-destructive`}
+        onClick={handleClear}
+      >
+        <Trash2 className={`!w-6 !h-6`} />
+      </Button>
+
+      {/* Generate */}
+      <Button
+        variant={"secondary"}
+        onClick={handleGenerate}
+        disabled={loading}
+        className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
+      >
+        {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
+      </Button>
+    </>
   );
 }
