@@ -248,6 +248,7 @@ export default function ImageUpload() {
           <Button
             variant={`ghost`}
             size={`icon`}
+            disabled={loading}
             className={`text-destructive`}
             onClick={handleClear}
           >
