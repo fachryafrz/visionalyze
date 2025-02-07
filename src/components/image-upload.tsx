@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { anaylyze } from "@/server/actions";
+import axios from "axios";
 import { useFile } from "@/zustand/file";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -115,11 +115,18 @@ export default function ImageUpload() {
 
     setLoading(true);
 
-    const { text } = await anaylyze(base64IMG);
+    try {
+      const { data } = await axios.post("/api/analyze", { image: base64IMG });
 
-    setAnalyze(text);
-
-    setLoading(false);
+      setAnalyze(data.text);
+    } catch {
+      toast(`Failed to analyze image.`, {
+        icon: <OctagonX />,
+        className: "!bg-destructive gap-3",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -253,7 +260,7 @@ function AnalyzeButton({
   handleClear,
 }: AnalyzeButtonProps) {
   return (
-    <>
+    <div className={`flex items-center gap-1 flex-1 w-full sm:flex-grow-0`}>
       {image && (
         <Button
           variant={`ghost`}
@@ -275,6 +282,6 @@ function AnalyzeButton({
       >
         {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
       </Button>
-    </>
+    </div>
   );
 }
