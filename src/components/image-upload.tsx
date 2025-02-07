@@ -259,12 +259,12 @@ export default function ImageUpload() {
 
       {/* Preview */}
       {image && (
-        <div className={`flex justify-center`}>
+        <div className={`w-full max-w-2xl mx-auto`}>
           <img
             src={image}
             alt=""
             draggable={false}
-            className={`max-h-[600px] max-w-2xl rounded-md`}
+            className={`max-h-[600px] mx-auto rounded-md`}
           />
         </div>
       )}
