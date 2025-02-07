@@ -54,7 +54,10 @@ const gtagId = process.env.GA_MEASUREMENT_ID;
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={`scroll-pt-4 sm:scroll-pt-8`}>
+    <html
+      lang="en"
+      className={`scroll-pt-4 scroll-pb-8 sm:scroll-pt-8 sm:scroll-pb-16`}
+    >
       <body
         className={`${roboto.className} antialiased bg-slate-100 dark:bg-background`}
       >

@@ -1,42 +1,45 @@
 "use client";
 
 import { useFile } from "@/zustand/file";
-import { TriangleAlert } from "lucide-react";
+import { useChat } from "ai/react";
+import { ArrowUp, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
+import { MemoizedMarkdown } from "./memoized-markdown";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { useChatID } from "@/zustand/chat-id";
+import Logo from "./logo";
+import { useTheme } from "next-themes";
 
 type Response = {
-  image_information: string;
-  important_information: string;
+  title: string;
+  description: string;
   related_keywords: string[];
   related_questions: string[];
 };
 
 export default function ImageResponse() {
-  const { image, analyze: rawData } = useFile();
+  const { image, analyze } = useFile();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [response, setResponse] = useState<Response | null>(null);
-
-  const handleSonner = () => {
-    toast(`Feature coming soon!`, {
-      icon: <TriangleAlert />,
-      className: "gap-3",
-    });
-  };
 
   useEffect(() => {
     setResponse(null);
   }, [image]);
 
   useEffect(() => {
-    if (!rawData) return;
+    if (!analyze) {
+      setResponse(null);
+      return;
+    }
 
-    const formattedResponse = rawData.replace(/```json|```/g, "");
+    const formattedResponse = analyze.replace(/```json|```/g, "");
 
     setResponse(JSON.parse(formattedResponse));
-  }, [rawData]);
+  }, [analyze]);
 
   useEffect(() => {
     if (response && containerRef.current) {
@@ -55,53 +58,176 @@ export default function ImageResponse() {
           <div
             className={`dark:bg-black space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-xl dark:border`}
           >
-            <div className={`space-y-8`}>
-              <div className={`space-y-1`}>
-                <h2 className={`text-xl font-bold`}>Title</h2>
-                <p>{response.image_information}</p>
-              </div>
-              <div className={`space-y-1`}>
-                <h2 className={`text-xl font-bold`}>Description</h2>
-                <p>{response.important_information}</p>
-              </div>
-              <div className={`space-y-1`}>
-                <h2 className={`text-xl font-bold`}>Related Keywords</h2>
-                <ul className={`flex gap-1 flex-wrap`}>
-                  {response.related_keywords.map((kw: string) => {
-                    const keyword = kw.replace(" ", "");
+            <ImageInformation image={response} />
 
-                    return (
-                      <li key={keyword}>
-                        <button
-                          onClick={handleSonner}
-                          className={`p-2 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
-                        >
-                          {`#${keyword.replace(" ", "")}`}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div className={`space-y-1`}>
-                <h2 className={`text-xl font-bold`}>Related Questions</h2>
-                <ul className={`space-y-1`}>
-                  {response.related_questions.map((question: string) => (
-                    <li key={question}>
-                      <button
-                        onClick={handleSonner}
-                        className={`p-2 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
-                      >
-                        {question}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <AskImageInformation />
           </div>
         </div>
       )}
     </>
+  );
+}
+
+function ImageInformation({ image }: { image: Response }) {
+  const { chatID } = useChatID();
+  const { base64IMG } = useFile();
+  const { setInput, handleSubmit } = useChat({
+    id: `ask-image-${chatID?.toString()}`,
+    api: "/api/analyze/ask",
+  });
+
+  // const handleSonner = () => {
+  //   toast(`Feature coming soon!`, {
+  //     icon: <TriangleAlert />,
+  //     className: "gap-3",
+  //   });
+  // };
+
+  return (
+    <div className={`space-y-8`}>
+      <div className={`space-y-1`}>
+        <h2 className={`text-xl font-bold`}>Title</h2>
+        <p>{image.title}</p>
+      </div>
+      <div className={`space-y-1`}>
+        <h2 className={`text-xl font-bold`}>Description</h2>
+        <p>{image.description}</p>
+      </div>
+      {/* <div className={`space-y-1`}>
+        <h2 className={`text-xl font-bold`}>Related Keywords</h2>
+        <ul className={`flex gap-1 flex-wrap`}>
+          {image.related_keywords.map((kw: string) => {
+            const keyword = kw.replace(" ", "");
+
+            return (
+              <li key={keyword}>
+                <button
+                  onClick={handleSonner}
+                  className={`p-2 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
+                >
+                  {`#${keyword.replace(" ", "")}`}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div> */}
+      <div className={`space-y-1`}>
+        <h2 className={`text-xl font-bold`}>Related Questions</h2>
+        <ul className={`space-y-1`}>
+          {image.related_questions.map((question: string) => (
+            <li key={question}>
+              <form
+                onSubmit={(e) => {
+                  handleSubmit(e, { data: { image: base64IMG } });
+                }}
+              >
+                <button
+                  onClick={() => setInput(question)}
+                  type="submit"
+                  className={`p-2 px-3 text-sm text-start bg-slate-200 hocus:bg-slate-300 dark:bg-neutral-800 rounded-md dark:hocus:bg-neutral-600`}
+                >
+                  {question}
+                </button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function AskImageInformation() {
+  const { resolvedTheme } = useTheme();
+  const { chatID, handleReset } = useChatID();
+
+  const { base64IMG, image } = useFile();
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading: loading,
+  } = useChat({
+    id: `ask-image-${chatID?.toString()}`,
+    api: "/api/analyze/ask",
+  });
+
+  const inputContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    handleReset(chatID);
+  }, [image]);
+
+  useEffect(() => {
+    if (messages.length > 0 && inputContainerRef.current) {
+      inputContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [messages]);
+
+  return (
+    <div>
+      <div className="space-y-8 mb-4">
+        {messages.map((message) => (
+          <div key={message.id}>
+            <div className="text-xl flex items-center gap-2 font-bold">
+              {message.role === "user" ? (
+                <User width={20} height={20} />
+              ) : (
+                <Logo
+                  variant={resolvedTheme as "dark" | "light"}
+                  width={20}
+                  height={20}
+                />
+              )}
+
+              <span>
+                {message.role === "user"
+                  ? "You"
+                  : process.env.NEXT_PUBLIC_APP_NAME}
+              </span>
+            </div>
+            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white">
+              <MemoizedMarkdown id={message.id} content={message.content} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e, { data: { image: base64IMG } });
+        }}
+      >
+        <div
+          ref={inputContainerRef}
+          className={`border flex items-center p-2 rounded-[2rem] gap-1`}
+        >
+          {/* Input */}
+          <Input
+            type="text"
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Ask something..."
+            className={`border-0 flex-1 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+          />
+
+          {/* Ask */}
+          <Button
+            variant={"secondary"}
+            size={`icon`}
+            type="submit"
+            disabled={loading}
+            className={`rounded-full`}
+          >
+            <ArrowUp />
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 }

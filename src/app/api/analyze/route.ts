@@ -21,7 +21,7 @@ export async function POST(request: Request) {
         content: [
           {
             type: "text",
-            text: `Analyze the image and provide a plain JSON response with no markdown formatting, no backslashes or escapes (like \\n). Use this exact JSON format and ensure the output is a valid JSON object:\n\n{\n  "image_information": "Identify the image and provide its name.",\n  "important_information": "Description of the content, objects, details of the image, and key insights or important elements from the image.",\n  "related_keywords": ["Keyword1", "Keyword2", "Keyword3"],\n  "related_questions": ["Question 1?", "Question 2?", "Question 3?"]\n}\n\nEnsure that the output is raw JSON without any escape characters or extra formatting.`,
+            text: `Analyze the image and provide a plain JSON response with no markdown formatting, no backslashes or escapes (like \\n). Use this exact JSON format and ensure the output is a valid JSON object:\n\n{\n  "title": "Identify the image and provide its name.",\n  "description": "Description of the content, objects, details of the image.",\n  "related_keywords": ["Keyword1", "Keyword2", "Keyword3"],\n  "related_questions": ["Question 1?", "Question 2?", "Question 3?"]\n}\n\nEnsure that the output is raw JSON without any escape characters or extra formatting.`,
           },
           { type: "image", image },
         ],
