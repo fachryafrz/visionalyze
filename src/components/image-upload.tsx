@@ -115,13 +115,18 @@ export default function ImageUpload() {
 
     setLoading(true);
 
-    // const { text } = await anaylyze(base64IMG);
+    try {
+      const { data } = await axios.post("/api/analyze", { image: base64IMG });
 
-    const { data } = await axios.post("/api/analyze", { image: base64IMG });
-
-    setAnalyze(data.text);
-
-    setLoading(false);
+      setAnalyze(data.text);
+    } catch {
+      toast(`Failed to analyze image.`, {
+        icon: <OctagonX />,
+        className: "!bg-destructive gap-3",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

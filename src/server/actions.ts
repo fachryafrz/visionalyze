@@ -3,7 +3,7 @@
 import { google } from "@ai-sdk/google";
 import { generateText } from "ai";
 
-export const anaylyze = async (image: string) => {
+export const anaylyze = async (image: string) => { // Deprecated
   const { text } = await generateText({
     model: google("gemini-2.0-flash-lite-preview-02-05"),
     system: `You are a helpful assistant. Respond to the user in Markdown format.`,

@@ -1,9 +1,16 @@
 import { google } from "@ai-sdk/google";
 import { generateText } from "ai";
 import { NextResponse } from "next/server";
+import { limiter, notAllowed, tokenExpired } from "../config/limiter";
+import { whitelist } from "@/app/middleware";
 
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
   const { image } = await request.json();
+
+  const remainingToken = await limiter.removeTokens(1);
+  if (remainingToken < 0) return tokenExpired(request);
+  if ((origin && !whitelist.includes(origin)) || !origin) return notAllowed();
 
   const { text } = await generateText({
     model: google("gemini-2.0-flash-lite-preview-02-05"),
