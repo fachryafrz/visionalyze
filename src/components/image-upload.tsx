@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFile } from "@/zustand/file";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -19,8 +19,17 @@ import { AnalyzeButtonProps } from "@/lib/types";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
-  const { image, setImage, setAnalyze, loading, setLoading } = useFile();
-  const [base64IMG, setBase64IMG] = useState<string | null>();
+  const {
+    image,
+    setImage,
+    base64IMG,
+    setBase64IMG,
+    analyze,
+    setAnalyze,
+    loading,
+    setLoading,
+  } = useFile();
+
   const [tab, setTab] = useState<string>();
   const [text, setText] = useState<string | null>();
 
@@ -88,7 +97,11 @@ export default function ImageUpload() {
       }
 
       try {
-        const base64 = await fetch(value).then((response) => response.blob());
+        setLoading(true);
+
+        const base64 = await axios
+          .get(value, { responseType: "blob" })
+          .then(({ data }) => data);
 
         convertToBase64(base64);
         setImage(value);
@@ -97,14 +110,27 @@ export default function ImageUpload() {
           icon: <CircleCheck />,
           className: "gap-3",
         });
-      } catch {
+      } catch (error) {
+        const { response } = error as AxiosError;
+        const className = "!bg-destructive gap-3";
+
+        if (response?.status === 404) {
+          toast(`Image not found.`, {
+            icon: <OctagonX />,
+            className,
+          });
+          return;
+        }
+
         toast(
           `Failed to load image. This image may be licensed and restricted from external use.`,
           {
             icon: <OctagonX />,
-            className: "!bg-destructive gap-3",
+            className,
           }
         );
+      } finally {
+        setLoading(false);
       }
     },
     300
@@ -112,6 +138,10 @@ export default function ImageUpload() {
 
   const handleGenerate = async () => {
     if (!base64IMG) return;
+
+    if (analyze) {
+      setAnalyze(null);
+    }
 
     setLoading(true);
 
@@ -178,14 +208,14 @@ export default function ImageUpload() {
           </TabsList>
           <TabsContent value={TAB_UPLOAD}>
             <div
-              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-1`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[1.5rem] sm:rounded-full gap-1`}
             >
               {/* Input */}
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleChangeInputFile}
-                disabled={loading}
+                // disabled={loading}
                 className={`block flex-1 w-full cursor-pointer text-sm text-gray-500 transition duration-150 ease-in-out file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-normal file:h-full dark:file:text-white dark:hocus:file:bg-white dark:hocus:file:bg-opacity-10 disabled:cursor-not-allowed disabled:opacity-50`}
               />
 
@@ -200,7 +230,7 @@ export default function ImageUpload() {
           </TabsContent>
           <TabsContent value={TAB_URL}>
             <div
-              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[2rem] gap-1`}
+              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[1.5rem] sm:rounded-full gap-1`}
             >
               {/* Input */}
               <Input
@@ -210,9 +240,9 @@ export default function ImageUpload() {
                   setText(e.target.value);
                   handleChangeInputText(e);
                 }}
-                disabled={loading}
+                // disabled={loading}
                 placeholder={`Type your image URL`}
-                className={`border-0 flex-1 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+                className={`border-0 flex-1 bg-transparent p-0 pl-1 min-h-9 max-h-9 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
 
               {/* Generate */}
@@ -230,14 +260,12 @@ export default function ImageUpload() {
       {/* Preview */}
       {image && (
         <div className={`flex justify-center`}>
-          <div className={`w-fit`}>
-            <img
-              src={image}
-              alt=""
-              draggable={false}
-              className={`w-full h-full object-contain max-h-[600px] `}
-            />
-          </div>
+          <img
+            src={image}
+            alt=""
+            draggable={false}
+            className={`max-h-[600px] max-w-2xl rounded-md`}
+          />
         </div>
       )}
 
@@ -278,7 +306,7 @@ function AnalyzeButton({
         variant={"secondary"}
         onClick={handleGenerate}
         disabled={loading}
-        className={`rounded-full w-full sm:min-w-[125px] sm:max-w-[125px]`}
+        className={`rounded-full flex-1 w-full sm:min-w-[125px] sm:max-w-[125px]`}
       >
         {loading ? <LoadingSpinner /> : <span>Analyze Image</span>}
       </Button>
