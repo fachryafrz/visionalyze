@@ -88,6 +88,8 @@ export default function ImageUpload() {
       }
 
       try {
+        setLoading(true);
+
         const base64 = await fetch(value).then((response) => response.blob());
 
         convertToBase64(base64);
@@ -105,6 +107,8 @@ export default function ImageUpload() {
             className: "!bg-destructive gap-3",
           }
         );
+      } finally {
+        setLoading(false);
       }
     },
     300
