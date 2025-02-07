@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFile } from "@/zustand/file";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -99,7 +99,9 @@ export default function ImageUpload() {
       try {
         setLoading(true);
 
-        const base64 = await fetch(value).then((response) => response.blob());
+        const base64 = await axios
+          .get(value, { responseType: "blob" })
+          .then(({ data }) => data);
 
         convertToBase64(base64);
         setImage(value);
@@ -108,12 +110,23 @@ export default function ImageUpload() {
           icon: <CircleCheck />,
           className: "gap-3",
         });
-      } catch {
+      } catch (error) {
+        const { response } = error as AxiosError;
+        const className = "!bg-destructive gap-3";
+
+        if (response?.status === 404) {
+          toast(`Image not found.`, {
+            icon: <OctagonX />,
+            className,
+          });
+          return;
+        }
+
         toast(
           `Failed to load image. This image may be licensed and restricted from external use.`,
           {
             icon: <OctagonX />,
-            className: "!bg-destructive gap-3",
+            className,
           }
         );
       } finally {
