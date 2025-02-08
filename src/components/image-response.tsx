@@ -142,7 +142,7 @@ function AskImageInformation() {
   const { resolvedTheme } = useTheme();
   const { chatID, handleReset } = useChatID();
 
-  const { base64IMG, image } = useFile();
+  const { base64IMG, analyze } = useFile();
   const {
     messages,
     input,
@@ -158,7 +158,7 @@ function AskImageInformation() {
 
   useEffect(() => {
     handleReset(chatID);
-  }, [image]);
+  }, [analyze]);
 
   useEffect(() => {
     if (messages.length > 0 && inputContainerRef.current) {
@@ -168,6 +168,10 @@ function AskImageInformation() {
       });
     }
   }, [messages]);
+
+  useEffect(() => {
+    console.log(loading, messages);
+  }, [loading, messages]);
 
   return (
     <div>
@@ -191,11 +195,18 @@ function AskImageInformation() {
                   : process.env.NEXT_PUBLIC_APP_NAME}
               </span>
             </div>
-            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white">
+            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white ml-7">
               <MemoizedMarkdown id={message.id} content={message.content} />
             </div>
           </div>
         ))}
+
+        {loading && (
+          <span
+            id="processing-indicator"
+            className={`block ml-7 w-4 aspect-square rounded-full bg-black dark:bg-white animate-ping`}
+          ></span>
+        )}
       </div>
 
       <form
