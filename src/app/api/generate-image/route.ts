@@ -1,11 +1,14 @@
-import { experimental_generateImage as generateImage, NoImageGeneratedError } from "ai";
+import {
+  experimental_generateImage as generateImage,
+  NoImageGeneratedError,
+} from "ai";
 import { NextResponse } from "next/server";
 import { notAllowed, tokenExpired } from "../config/limiter";
 import { whitelist } from "@/app/middleware";
 import { togetherai } from "@ai-sdk/togetherai";
 import { RateLimiter } from "limiter";
 
-export const limiter = new RateLimiter({
+const limiter = new RateLimiter({
   tokensPerInterval: 6,
   interval: "min",
   fireImmediately: true,
