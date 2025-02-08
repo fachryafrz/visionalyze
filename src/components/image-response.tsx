@@ -169,10 +169,6 @@ function AskImageInformation() {
     }
   }, [messages]);
 
-  useEffect(() => {
-    console.log(loading, messages);
-  }, [loading, messages]);
-
   return (
     <div>
       <div className="space-y-8 mb-4">
