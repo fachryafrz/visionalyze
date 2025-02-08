@@ -269,8 +269,12 @@ export default function ImageUpload() {
       </div>
 
       {/* Preview */}
-      {image && tab !== TAB_GENERATE && (
-        <div className={`w-full max-w-2xl mx-auto`}>
+      {image && (
+        <div
+          className={`w-full max-w-2xl mx-auto ${
+            tab === TAB_GENERATE ? "hidden" : ""
+          }`}
+        >
           <img
             src={image}
             alt=""

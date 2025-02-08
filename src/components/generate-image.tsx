@@ -1,5 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
 import { useChat } from "ai/react";
-import { ArrowUp, User } from "lucide-react";
+import { ArrowUp, Download, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import Logo from "./logo";
@@ -8,6 +11,7 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import { MemoizedMarkdown } from "./memoized-markdown";
 import { Message } from "@ai-sdk/ui-utils";
+import useDownloader from "react-use-downloader";
 
 export default function GenerateImage() {
   const { resolvedTheme } = useTheme();
@@ -18,6 +22,7 @@ export default function GenerateImage() {
       api: "/api/generate-image",
     }
   );
+  const { download } = useDownloader();
 
   const [loading, setLoading] = useState<boolean>(false);
   const inputContainerRef = useRef<HTMLDivElement>(null);
@@ -87,7 +92,11 @@ export default function GenerateImage() {
         <div className="space-y-8">
           {messages.map((message) => (
             <div key={message.id}>
-              <div className={`text-xl flex items-center gap-2 mb-2 font-bold`}>
+              <div
+                className={`flex items-center gap-2 font-bold ${
+                  message.id === "image" ? "mb-1" : ""
+                }`}
+              >
                 {message.role === "user" ? (
                   <User width={20} height={20} />
                 ) : (
@@ -107,14 +116,39 @@ export default function GenerateImage() {
 
               <div className={`w-full max-w-2xl pl-7`}>
                 {message.id === "image" ? (
-                  <img
-                    src={`data:image/png;base64,${message.content}`}
-                    alt=""
-                    draggable={false}
-                    className={`max-h-[300px] rounded-md`}
-                  />
+                  <div className={`flex w-fit`}>
+                    <div>
+                      <img
+                        src={`data:image/png;base64,${message.content}`}
+                        alt=""
+                        draggable={false}
+                        className={`max-h-[300px] rounded-md`}
+                      />
+                    </div>
+
+                    {/* Options */}
+                    <div>
+                      <Button
+                        variant={`ghost`}
+                        size={`icon`}
+                        className={`rounded-full`}
+                        onClick={() => {
+                          download(
+                            `data:image/png;base64,${message.content}`,
+                            `${process.env.NEXT_PUBLIC_APP_NAME?.toLowerCase()}-generate-image-${Date.now()}.png`
+                          );
+                        }}
+                      >
+                        <Download className={`!w-5 !h-5`} />
+                      </Button>
+                    </div>
+                  </div>
                 ) : (
-                  <div className={message.id === "error" ? "text-red-500 italic" : ""}>
+                  <div
+                    className={
+                      message.id === "error" ? "text-red-500 italic" : ""
+                    }
+                  >
                     <MemoizedMarkdown
                       id={message.id}
                       content={message.content}

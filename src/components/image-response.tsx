@@ -52,8 +52,11 @@ export default function ImageResponse() {
 
   return (
     <>
-      {response && tab !== TAB_GENERATE && (
-        <div ref={containerRef} className={`space-y-8`}>
+      {response && (
+        <div
+          ref={containerRef}
+          className={`space-y-8 ${tab === TAB_GENERATE ? "hidden" : ""}`}
+        >
           <div className={`mx-auto text-center`}>
             <h2 className={`text-3xl font-bold`}>Results</h2>
           </div>
@@ -143,9 +146,9 @@ function ImageInformation({ image }: { image: Response }) {
 
 function AskImageInformation() {
   const { resolvedTheme } = useTheme();
-  const { chatID, handleReset } = useChatID();
+  const { chatID, incrementChatID } = useChatID();
 
-  const { base64IMG, analyze } = useFile();
+  const { base64IMG } = useFile();
   const {
     messages,
     input,
@@ -160,13 +163,13 @@ function AskImageInformation() {
   const inputContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    handleReset(chatID);
-  }, [analyze]);
+    incrementChatID(chatID);
+  }, [base64IMG]);
 
   useEffect(() => {
     if (messages.length > 0 && inputContainerRef.current) {
       setTimeout(() => {
-        inputContainerRef.current!.scrollIntoView({
+        inputContainerRef.current?.scrollIntoView({
           behavior: "smooth",
           block: "end",
         });
@@ -179,7 +182,7 @@ function AskImageInformation() {
       <div className="space-y-8 mb-4">
         {messages.map((message) => (
           <div key={message.id}>
-            <div className="text-xl flex items-center gap-2 font-bold">
+            <div className="flex items-center gap-2 font-bold">
               {message.role === "user" ? (
                 <User width={20} height={20} />
               ) : (
