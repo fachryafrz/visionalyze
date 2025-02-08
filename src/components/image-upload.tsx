@@ -11,11 +11,18 @@ import { useTheme } from "next-themes";
 import Logo from "./logo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "./ui/input";
-import { SELECTED_TAB, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
+import {
+  SELECTED_TAB,
+  TAB_GENERATE,
+  TAB_UPLOAD,
+  TAB_URL,
+} from "@/lib/constants";
 import debounce from "debounce";
 import { toast } from "sonner";
 import { CircleCheck, OctagonX, Trash2 } from "lucide-react";
 import { AnalyzeButtonProps } from "@/lib/types";
+import GenerateImage from "./generate-image";
+import { useTab } from "@/zustand/tab";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
@@ -30,7 +37,7 @@ export default function ImageUpload() {
     setLoading,
   } = useFile();
 
-  const [tab, setTab] = useState<string>();
+  const { tab, setTab } = useTab();
   const [text, setText] = useState<string | null>();
 
   const onTabChange = (value: string) => {
@@ -205,6 +212,7 @@ export default function ImageUpload() {
           <TabsList className={`rounded-full [&>*]:rounded-full`}>
             <TabsTrigger value={TAB_UPLOAD}>Upload</TabsTrigger>
             <TabsTrigger value={TAB_URL}>URL</TabsTrigger>
+            <TabsTrigger value={TAB_GENERATE}>Generate</TabsTrigger>
           </TabsList>
           <TabsContent value={TAB_UPLOAD}>
             <div
@@ -242,7 +250,7 @@ export default function ImageUpload() {
                 }}
                 // disabled={loading}
                 placeholder={`Type your image URL`}
-                className={`border-0 flex-1 bg-transparent p-0 pl-1 min-h-9 max-h-9 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
+                className={`border-0 flex-1 bg-transparent p-0 pl-2 min-h-9 max-h-9 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
 
               {/* Generate */}
@@ -254,12 +262,19 @@ export default function ImageUpload() {
               />
             </div>
           </TabsContent>
+          <TabsContent value={TAB_GENERATE}>
+            <GenerateImage />
+          </TabsContent>
         </Tabs>
       </div>
 
       {/* Preview */}
       {image && (
-        <div className={`w-full max-w-2xl mx-auto`}>
+        <div
+          className={`w-full max-w-2xl mx-auto ${
+            tab === TAB_GENERATE ? "hidden" : ""
+          }`}
+        >
           <img
             src={image}
             alt=""

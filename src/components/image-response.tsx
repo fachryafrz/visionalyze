@@ -11,6 +11,8 @@ import { Button } from "./ui/button";
 import { useChatID } from "@/zustand/chat-id";
 import Logo from "./logo";
 import { useTheme } from "next-themes";
+import { useTab } from "@/zustand/tab";
+import { TAB_GENERATE } from "@/lib/constants";
 
 type Response = {
   title: string;
@@ -22,6 +24,7 @@ type Response = {
 export default function ImageResponse() {
   const { image, analyze } = useFile();
 
+  const { tab } = useTab();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [response, setResponse] = useState<Response | null>(null);
@@ -50,7 +53,10 @@ export default function ImageResponse() {
   return (
     <>
       {response && (
-        <div ref={containerRef} className={`space-y-8`}>
+        <div
+          ref={containerRef}
+          className={`space-y-8 ${tab === TAB_GENERATE ? "hidden" : ""}`}
+        >
           <div className={`mx-auto text-center`}>
             <h2 className={`text-3xl font-bold`}>Results</h2>
           </div>
@@ -140,9 +146,9 @@ function ImageInformation({ image }: { image: Response }) {
 
 function AskImageInformation() {
   const { resolvedTheme } = useTheme();
-  const { chatID, handleReset } = useChatID();
+  const { chatID, incrementChatID } = useChatID();
 
-  const { base64IMG, analyze } = useFile();
+  const { base64IMG } = useFile();
   const {
     messages,
     input,
@@ -157,15 +163,17 @@ function AskImageInformation() {
   const inputContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    handleReset(chatID);
-  }, [analyze]);
+    incrementChatID(chatID);
+  }, [base64IMG]);
 
   useEffect(() => {
     if (messages.length > 0 && inputContainerRef.current) {
-      inputContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
+      setTimeout(() => {
+        inputContainerRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      }, 50);
     }
   }, [messages]);
 
@@ -174,7 +182,7 @@ function AskImageInformation() {
       <div className="space-y-8 mb-4">
         {messages.map((message) => (
           <div key={message.id}>
-            <div className="text-xl flex items-center gap-2 font-bold">
+            <div className="flex items-center gap-2 font-bold">
               {message.role === "user" ? (
                 <User width={20} height={20} />
               ) : (
@@ -191,7 +199,7 @@ function AskImageInformation() {
                   : process.env.NEXT_PUBLIC_APP_NAME}
               </span>
             </div>
-            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white ml-7">
+            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white pl-7">
               <MemoizedMarkdown id={message.id} content={message.content} />
             </div>
           </div>

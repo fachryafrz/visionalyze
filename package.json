@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/deepinfra": "^0.1.9",
     "@ai-sdk/google": "^1.1.10",
+    "@ai-sdk/togetherai": "^0.1.9",
     "@next/third-parties": "^15.1.6",
     "@radix-ui/react-dropdown-menu": "^2.1.5",
     "@radix-ui/react-slot": "^1.1.1",
@@ -28,6 +30,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.3",
+    "react-use-downloader": "^1.2.8",
     "rehype": "^13.0.2",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
