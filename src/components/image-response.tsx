@@ -11,6 +11,8 @@ import { Button } from "./ui/button";
 import { useChatID } from "@/zustand/chat-id";
 import Logo from "./logo";
 import { useTheme } from "next-themes";
+import { useTab } from "@/zustand/tab";
+import { TAB_GENERATE } from "@/lib/constants";
 
 type Response = {
   title: string;
@@ -22,6 +24,7 @@ type Response = {
 export default function ImageResponse() {
   const { image, analyze } = useFile();
 
+  const { tab } = useTab();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [response, setResponse] = useState<Response | null>(null);
@@ -49,7 +52,7 @@ export default function ImageResponse() {
 
   return (
     <>
-      {response && (
+      {response && tab !== TAB_GENERATE && (
         <div ref={containerRef} className={`space-y-8`}>
           <div className={`mx-auto text-center`}>
             <h2 className={`text-3xl font-bold`}>Results</h2>
@@ -162,10 +165,12 @@ function AskImageInformation() {
 
   useEffect(() => {
     if (messages.length > 0 && inputContainerRef.current) {
-      inputContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
+      setTimeout(() => {
+        inputContainerRef.current!.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      }, 50);
     }
   }, [messages]);
 
@@ -191,7 +196,7 @@ function AskImageInformation() {
                   : process.env.NEXT_PUBLIC_APP_NAME}
               </span>
             </div>
-            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white ml-7">
+            <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white pl-7">
               <MemoizedMarkdown id={message.id} content={message.content} />
             </div>
           </div>
