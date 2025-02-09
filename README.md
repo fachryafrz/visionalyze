@@ -1,4 +1,4 @@
-[![Visionalyze](https://fachryafrz.vercel.app/_next/image?url=%2Fprojects%2Fvisionalyze%2Fhome.png&w=1080&q=100)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.vercel.app/_next/image?url=%2Fprojects%2Fvisionalyze%2Fupload.png&w=1080&q=100)](https://visionalyze.vercel.app)
 
 [![Website](https://img.shields.io/badge/Visionalyze-Analyze%20images%20with%20AI-blue)](https://visionalyze.vercel.app)
 
