@@ -3,7 +3,7 @@
 
 import axios, { AxiosError } from "axios";
 import { useFile } from "@/zustand/file";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./loading-spinner";
 import ModeToggle from "./mode-toggle";
@@ -94,8 +94,8 @@ export default function ImageUpload() {
     });
   };
 
-  const handleChangeInputText = debounce(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInputText = useCallback(
+    debounce(async (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
 
       if (!value) {
@@ -139,8 +139,8 @@ export default function ImageUpload() {
       } finally {
         setLoading(false);
       }
-    },
-    300
+    }, 300),
+    []
   );
 
   const handleGenerate = async () => {
