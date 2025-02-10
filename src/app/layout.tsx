@@ -44,16 +44,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  robots: {
-    index: true,
-    follow: false,
-    noimageindex: true,
-    googleBot: {
-      index: true,
-      follow: false,
-      noimageindex: true,
-    },
-  },
 };
 
 type RootLayoutProps = {
