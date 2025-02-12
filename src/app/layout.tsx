@@ -39,11 +39,11 @@ export const metadata: Metadata = {
     ],
   },
   robots: {
-    index: true,
+    index: false,
     follow: false,
     noimageindex: true,
     googleBot: {
-      index: true,
+      index: false,
       follow: false,
       noimageindex: true,
     },
