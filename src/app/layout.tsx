@@ -3,7 +3,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Roboto } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 const roboto = Roboto({
@@ -83,7 +82,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </ThemeProvider>
 
         <GoogleAnalytics gaId={gtagId || ""} />
-        <Analytics />
       </body>
     </html>
   );
