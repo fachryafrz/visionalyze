@@ -1,4 +1,4 @@
-[![Visionalyze](https://fachryafrz.vercel.app/_next/image?url=%2Fprojects%2Fvisionalyze%2Fupload.png&w=1080&q=100)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/upload.png)](https://visionalyze.vercel.app)
 
 # **Visionalyze** – AI-Powered Image Analysis
 
@@ -51,6 +51,6 @@ For any questions or feedback, reach out at [fachrydwiafriza@gmail.com](mailto:f
 
 ## 📸 Screenshots
 
-[![Visionalyze](https://fachryafrz.vercel.app/_next/image?url=%2Fprojects%2Fvisionalyze%2Furl.png&w=1920&q=100)](https://visionalyze.vercel.app)
-[![Visionalyze](https://fachryafrz.vercel.app/_next/image?url=%2Fprojects%2Fvisionalyze%2Fgenerate.png&w=1920&q=100)](https://visionalyze.vercel.app)
-[![Visionalyze](https://fachryafrz.vercel.app/_next/image?url=%2Fprojects%2Fvisionalyze%2Fresults.png&w=1920&q=100)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/url.png)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/generate.png)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/results.png)](https://visionalyze.vercel.app)
