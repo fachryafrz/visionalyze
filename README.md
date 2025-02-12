@@ -17,6 +17,17 @@ Visionalyze is an **AI-powered image analysis tool** that helps you extract mean
 - **Comprehensive Insights** – Understand your image better with in-depth details on composition, colors, and key elements.
 - **Intuitive & Easy to Use** – A clean and simple interface designed for seamless image uploads and analysis.
 
+## 🛠️ Tech Stack
+
+- **Next.js 14** - React-based framework
+- **React** - JavaScript framework
+- **shadcn** - Tailwind UI component library
+- **Tailwind CSS** - Styling and UI design
+- **Vercel AI SDK** - AI integration
+- **Gemini AI** - AI Image analysis by Google
+- **Flux AI** - Text to image generation by Black Forest Labs
+- **Typescript** - Static type checking
+
 ## 🚀 Fork the repository
 
 ### 1. Fork
