@@ -16,18 +16,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: process.env.NEXT_PUBLIC_APP_NAME,
     description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
-    images: [
-      {
-        url: "/assets/favicon/dark/android-chrome-512x512.png",
-        width: 512,
-        height: 512,
-      },
-      {
-        url: "/assets/favicon/light/android-chrome-512x512.png",
-        width: 512,
-        height: 512,
-      },
-    ],
+    images: {
+      url: "/assets/maskable/maskable_icon_x512.png",
+      width: 512,
+      height: 512,
+    },
   },
   icons: {
     icon: [
