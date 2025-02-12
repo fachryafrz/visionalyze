@@ -14,8 +14,10 @@ export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME,
   description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
   openGraph: {
+    siteName: process.env.NEXT_PUBLIC_APP_NAME,
     title: process.env.NEXT_PUBLIC_APP_NAME,
     description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+    url: process.env.NEXT_PUBLIC_APP_URL,
     images: {
       url: "/assets/maskable/maskable_icon_x512.png",
       width: 512,
