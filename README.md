@@ -56,10 +56,6 @@ Contributions are welcome! Please fork the repository, make your changes, and su
 
 This project is licensed under the [MIT License](LICENSE.md).
 
-## 📬 Contact
-
-For any questions or feedback, reach out at [fachrydwiafriza@gmail.com](mailto:fachrydwiafriza@gmail.com).
-
 ## 📸 Screenshots
 
 [![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/url.png)](https://visionalyze.vercel.app)
