@@ -24,7 +24,7 @@ Visionalyze is an **AI-powered image analysis tool** that helps you extract mean
 - **shadcn** - Tailwind UI component library
 - **Tailwind CSS** - Styling and UI design
 - **Vercel AI SDK** - AI integration
-- **Gemini AI** - AI Image analysis by Google
+- **Gemini AI** - AI image analysis by Google
 - **Flux AI** - Text to image generation by Black Forest Labs
 - **Typescript** - Static type checking
 
