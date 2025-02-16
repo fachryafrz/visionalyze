@@ -7,11 +7,12 @@ export default function manifest(): MetadataRoute.Manifest {
     description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
     start_url: "/",
     display: "standalone",
-    background_color: "#fff",
-    theme_color: "#fff",
+    background_color: "#000000",
+    theme_color: "#000000",
     icons: [
       {
         src: "/assets/maskable/transparent_maskable_icon_x512.png",
+        purpose: "maskable",
         sizes: "512x512",
         type: "image/png",
       },
