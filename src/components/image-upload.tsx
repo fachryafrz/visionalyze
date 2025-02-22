@@ -61,7 +61,7 @@ export default function ImageUpload() {
 
     if (imgSize > 5) {
       toast(
-        `Image size must be less than 1MB. Current size: ${imgSize.toFixed(
+        `Image size must be less than 5MB. Current size: ${imgSize.toFixed(
           2
         )}MB`,
         {
