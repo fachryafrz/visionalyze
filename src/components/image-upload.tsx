@@ -19,6 +19,7 @@ import { AnalyzeButtonProps } from "@/lib/types";
 import GenerateImage from "./generate-image";
 import { useTab } from "@/zustand/tab";
 import Typewriter from "typewriter-effect";
+import { validURL } from "@/lib/valid-url";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
@@ -91,6 +92,17 @@ export default function ImageUpload() {
 
       if (!value) {
         setImage(null);
+        return;
+      }
+
+      if (!validURL(value)) {
+        toast(
+          `Please enter a valid URL.`,
+          {
+            icon: <OctagonX />,
+            className: "!bg-destructive gap-3",
+          }
+        )
         return;
       }
 
