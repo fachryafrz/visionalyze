@@ -6,6 +6,6 @@ type Tab = {
 };
 
 export const useTab = create<Tab>()((set) => ({
-  tab: "upload",
+  tab: localStorage.getItem("selected-tab") || "upload",
   setTab: (tab) => set({ tab: tab }),
 }));
