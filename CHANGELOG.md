@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/fachryafrz/visionalyze/compare/v1.1.0...v1.1.1) (2025-02-22)
+
+
+### Bug Fixes
+
+* update image size limit message to reflect 5MB constraint ([92d8346](https://github.com/fachryafrz/visionalyze/commit/92d83467ae34aa39e6d06423d7480a65173c78c3))
+
 ## [1.1.0](https://github.com/fachryafrz/visionalyze/compare/v1.0.0...v1.1.0) (2025-02-22)
 
 
