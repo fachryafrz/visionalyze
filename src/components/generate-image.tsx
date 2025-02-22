@@ -12,6 +12,7 @@ import axios from "axios";
 import { MemoizedMarkdown } from "./memoized-markdown";
 import { Message } from "@ai-sdk/ui-utils";
 import useDownloader from "react-use-downloader";
+import Typewriter from "typewriter-effect";
 
 export default function GenerateImage() {
   const { resolvedTheme } = useTheme();
@@ -171,7 +172,7 @@ export default function GenerateImage() {
       <form onSubmit={handleGenerate}>
         <div
           ref={inputContainerRef}
-          className={`border flex items-center p-2 rounded-[2rem] gap-1`}
+          className={`border relative flex items-center p-2 rounded-[2rem] gap-1`}
         >
           {/* Input */}
           <Input
@@ -179,9 +180,46 @@ export default function GenerateImage() {
             ref={inputRef}
             value={input}
             onChange={handleInputChange}
-            placeholder="Think of something..."
+            // placeholder="Think of something..."
             className={`border-0 flex-1 bg-transparent p-0 pl-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
           />
+
+          <div
+            className={`text-sm pointer-events-none absolute left-4 text-muted-foreground ${
+              input ? "opacity-0" : ""
+            }`}
+          >
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString("Think of something...")
+                  .pauseFor(3e3)
+                  .deleteAll()
+                  .typeString(
+                    "Futuristic city skyline with towering skyscrapers"
+                  )
+                  .pauseFor(5e3)
+                  .deleteAll()
+                  .typeString(
+                    "Majestic dragon soaring above snowy mountains"
+                  )
+                  .pauseFor(5e3)
+                  .deleteAll()
+                  .typeString(
+                    "Surreal landscape with floating islands and glowing waterfalls"
+                  )
+                  .pauseFor(5e3)
+                  .deleteAll()
+                  .typeString("Create what you imagine...")
+                  .start();
+              }}
+              options={{
+                loop: false,
+                delay: 50,
+                cursor: "",
+              }}
+            />
+          </div>
 
           {/* Ask */}
           <Button

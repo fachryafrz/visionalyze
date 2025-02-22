@@ -23,6 +23,7 @@ import { CircleCheck, OctagonX, Trash2 } from "lucide-react";
 import { AnalyzeButtonProps } from "@/lib/types";
 import GenerateImage from "./generate-image";
 import { useTab } from "@/zustand/tab";
+import Typewriter from "typewriter-effect";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
@@ -238,7 +239,7 @@ export default function ImageUpload() {
           </TabsContent>
           <TabsContent value={TAB_URL}>
             <div
-              className={`border max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[1.5rem] sm:rounded-full gap-1`}
+              className={`border relative max-w-2xl mx-auto flex flex-col sm:flex-row items-center p-2 rounded-[1.5rem] sm:rounded-full gap-1`}
             >
               {/* Input */}
               <Input
@@ -249,9 +250,34 @@ export default function ImageUpload() {
                   handleChangeInputText(e);
                 }}
                 // disabled={loading}
-                placeholder={`Type your image URL`}
+                // placeholder={`Type your image URL`}
                 className={`border-0 flex-1 bg-transparent p-0 pl-2 min-h-9 max-h-9 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0`}
               />
+
+              {/* Typewriter NOTE: This is a hack to make the typewriter work because there is no typescript support for it */}
+              <div
+                className={`text-sm pointer-events-none absolute left-4 text-muted-foreground ${
+                  text ? "opacity-0" : ""
+                }`}
+              >
+                <Typewriter
+                  onInit={(typewriter) => {
+                    typewriter
+                      .typeString("Paste your image URL")
+                      .pauseFor(3e3)
+                      .deleteAll()
+                      .typeString("https://example.com/image.jpg")
+                      .pauseFor(5e3)
+                      .deleteAll()
+                      .start();
+                  }}
+                  options={{
+                    loop: true,
+                    delay: 50,
+                    cursor: "",
+                  }}
+                />
+              </div>
 
               {/* Generate */}
               <AnalyzeButton
