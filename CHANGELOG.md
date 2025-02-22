@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/fachryafrz/visionalyze/compare/v1.1.1...v1.2.0) (2025-02-22)
+
+
+### Features
+
+* add URL validation for image upload input ([ca3c819](https://github.com/fachryafrz/visionalyze/commit/ca3c819840dc210874842e369b80d3bd59dfd6ef))
+
+
+### Bug Fixes
+
+* URL typewriter is not vertically aligned on mobile ([d9fb993](https://github.com/fachryafrz/visionalyze/commit/d9fb993a14435920548338acaf0d507448d9719b))
+
 ## [1.1.1](https://github.com/fachryafrz/visionalyze/compare/v1.1.0...v1.1.1) (2025-02-22)
 
 
