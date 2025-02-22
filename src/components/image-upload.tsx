@@ -235,7 +235,7 @@ export default function ImageUpload() {
 
               {/* Typewriter NOTE: This is a hack to make the typewriter work because there is no typescript support for it */}
               <div
-                className={`text-sm pointer-events-none absolute left-4 text-muted-foreground ${
+                className={`text-sm pointer-events-none absolute left-4 top-4 text-muted-foreground ${
                   text ? "opacity-0" : ""
                 }`}
               >
