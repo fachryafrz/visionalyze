@@ -3,7 +3,7 @@
 
 import axios, { AxiosError } from "axios";
 import { useFile } from "@/zustand/file";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "./ui/button";
 import { LoadingSpinner } from "./loading-spinner";
 import ModeToggle from "./mode-toggle";
@@ -11,12 +11,7 @@ import { useTheme } from "next-themes";
 import Logo from "./logo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "./ui/input";
-import {
-  SELECTED_TAB,
-  TAB_GENERATE,
-  TAB_UPLOAD,
-  TAB_URL,
-} from "@/lib/constants";
+import { TAB_GENERATE, TAB_UPLOAD, TAB_URL } from "@/lib/constants";
 import debounce from "debounce";
 import { toast } from "sonner";
 import { CircleCheck, OctagonX, Trash2 } from "lucide-react";
@@ -40,11 +35,6 @@ export default function ImageUpload() {
 
   const { tab, setTab } = useTab();
   const [text, setText] = useState<string | null>();
-
-  const onTabChange = (value: string) => {
-    localStorage.setItem(SELECTED_TAB, value);
-    setTab(value);
-  };
 
   const handleClear = () => {
     setImage(null);
@@ -167,17 +157,6 @@ export default function ImageUpload() {
     }
   };
 
-  useEffect(() => {
-    const selectedTab = localStorage.getItem(SELECTED_TAB);
-
-    if (!selectedTab) {
-      localStorage.setItem(SELECTED_TAB, TAB_UPLOAD);
-      setTab(TAB_UPLOAD);
-    } else {
-      setTab(selectedTab);
-    }
-  }, []);
-
   return (
     <div
       className={`dark:bg-black relative space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-md hocus:drop-shadow-xl transition-all dark:border`}
@@ -207,7 +186,7 @@ export default function ImageUpload() {
         <Tabs
           defaultValue={TAB_UPLOAD}
           value={tab}
-          onValueChange={onTabChange}
+          onValueChange={setTab}
           className="flex flex-col items-center w-full"
         >
           <TabsList className={`rounded-full [&>*]:rounded-full`}>
