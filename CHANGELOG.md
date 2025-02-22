@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.0](https://github.com/fachryafrz/visionalyze/compare/v1.0.0...v1.1.0) (2025-02-22)
+
+
+### Features
+
+* add typewriter effect for input placeholders in image generation and upload components ([6c39d80](https://github.com/fachryafrz/visionalyze/commit/6c39d808eee2d1815f24b88c52ea3e5cd8fec633))
+* persist selected tab in localStorage for tab state management ([557516e](https://github.com/fachryafrz/visionalyze/commit/557516e2d3cc75c00d6f5937a59ea5d33ede5d81))
+* refactor tab state management to use zustand with persistence in localStorage ([a5f9c2f](https://github.com/fachryafrz/visionalyze/commit/a5f9c2f445229364f2003df106c69d7a51dfc1fa))
+
 ## 1.0.0 (2025-02-22)
 
 
