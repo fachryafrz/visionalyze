@@ -1,3 +1,4 @@
+import { SELECTED_TAB, TAB_UPLOAD } from "@/lib/constants";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -9,11 +10,11 @@ type Tab = {
 export const useTab = create<Tab>()(
   persist(
     (set) => ({
-      tab: "upload",
+      tab: TAB_UPLOAD,
       setTab: (tab) => set({ tab }),
     }),
     {
-      name: "selected-tab",
+      name: SELECTED_TAB,
       storage: createJSONStorage(() => localStorage),
     }
   )
