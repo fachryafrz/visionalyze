@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/fachryafrz/visionalyze/compare/v1.2.0...v1.2.1) (2025-02-24)
+
+
+### Bug Fixes
+
+* adjust typewriter position for better mobile & desktop alignment ([#17](https://github.com/fachryafrz/visionalyze/issues/17)) ([5e45288](https://github.com/fachryafrz/visionalyze/commit/5e4528878c87d18cd4ad3577ed3efb3cda3b333f))
+
 ## [1.2.0](https://github.com/fachryafrz/visionalyze/compare/v1.1.1...v1.2.0) (2025-02-22)
 
 
