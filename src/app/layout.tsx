@@ -26,7 +26,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/assets/favicon/dark/favicon.ico" },
       {
         media: "(prefers-color-scheme: light)",
         url: "/assets/favicon/light/favicon.ico",
