@@ -1,4 +1,4 @@
-[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/upload.png)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.com/projects/visionalyze/upload.png)](https://visionalyze.fachryafrz.com)
 
 # Visionalyze – AI-Powered Image Analysis
 
@@ -70,6 +70,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📸 Screenshots
 
-[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/url.png)](https://visionalyze.vercel.app)
-[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/generate.png)](https://visionalyze.vercel.app)
-[![Visionalyze](https://fachryafrz.vercel.app/projects/visionalyze/results.png)](https://visionalyze.vercel.app)
+[![Visionalyze](https://fachryafrz.com/projects/visionalyze/url.png)](https://visionalyze.fachryafrz.com)
+[![Visionalyze](https://fachryafrz.com/projects/visionalyze/generate.png)](https://visionalyze.fachryafrz.com)
+[![Visionalyze](https://fachryafrz.com/projects/visionalyze/results.png)](https://visionalyze.fachryafrz.com)

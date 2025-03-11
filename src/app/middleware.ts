@@ -2,7 +2,7 @@ import { notAllowed } from "./api/config/limiter";
 
 export const whitelist = [
   process.env.NEXT_PUBLIC_APP_URL,
-  "https://preview-visionalyze.vercel.app",
+  "https://preview-visionalyze.fachryafrz.com",
 ];
 
 export function middleware(request: Request) {
