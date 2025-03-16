@@ -1,8 +1,9 @@
+import { siteConfig } from "@/config/site";
 import { notAllowed } from "./api/config/limiter";
 
 export const whitelist = [
-  process.env.NEXT_PUBLIC_APP_URL,
-  "https://preview-visionalyze.fachryafrz.com",
+  siteConfig.url,
+  "https://preview-visionalyze.vercel.app",
 ];
 
 export function middleware(request: Request) {

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import ModeToggle from "./mode-toggle";
+import { siteConfig } from "@/config/site";
 
 export default function NavigationBar() {
   return (
@@ -9,7 +10,7 @@ export default function NavigationBar() {
       <nav className={`flex justify-center`}>
         {/* Logo */}
         <Button variant="ghost" className={`uppercase`}>
-          {process.env.NEXT_PUBLIC_APP_NAME}
+          {siteConfig.name}
         </Button>
 
         {/* Mode Toggle */}

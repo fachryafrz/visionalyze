@@ -1,10 +1,11 @@
+import { siteConfig } from "@/config/site";
 import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: process.env.NEXT_PUBLIC_APP_NAME,
-    short_name: process.env.NEXT_PUBLIC_APP_NAME,
-    description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+    name: siteConfig.name,
+    short_name: siteConfig.name,
+    description: siteConfig.description,
     start_url: "/",
     display: "standalone",
     background_color: "#000000",

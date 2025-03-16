@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Roboto } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { siteConfig } from "@/config/site";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -11,13 +12,13 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_APP_NAME,
-  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+  title: siteConfig.name,
+  description: siteConfig.description,
   openGraph: {
-    siteName: process.env.NEXT_PUBLIC_APP_NAME,
-    title: process.env.NEXT_PUBLIC_APP_NAME,
-    description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
-    url: process.env.NEXT_PUBLIC_APP_URL,
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
     images: {
       url: "/assets/maskable/maskable_icon_x512.png",
       width: 512,

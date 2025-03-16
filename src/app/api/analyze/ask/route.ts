@@ -2,6 +2,7 @@ import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
 import { limiter, notAllowed, tokenExpired } from "@/app/api/config/limiter";
 import { whitelist } from "@/app/middleware";
+import { siteConfig } from "@/config/site";
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
 
   const result = streamText({
     model: google("gemini-2.0-flash-lite-preview-02-05"),
-    system: `You are an AI-Powered Image Analysis. Respond to the user in Markdown format. Your name is ${process.env.NEXT_PUBLIC_APP_NAME}. If someone ask who own this website or who created you, answer with "I am owned by a handsome man named Fachry Dwi Afriza". Don't mention any Google stuff.`,
+    system: `You are an AI-Powered Image Analysis. Respond to the user in Markdown format. Your name is ${siteConfig.name}. If someone ask who own this website or who created you, answer with "I am owned by a handsome man named Fachry Dwi Afriza". Don't mention any Google stuff.`,
     messages: [
       ...initialMessages,
       {

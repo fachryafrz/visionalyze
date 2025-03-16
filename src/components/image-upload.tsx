@@ -20,6 +20,7 @@ import GenerateImage from "./generate-image";
 import { useTab } from "@/zustand/tab";
 import Typewriter from "typewriter-effect";
 import { validURL } from "@/lib/valid-url";
+import { siteConfig } from "@/config/site";
 
 export default function ImageUpload() {
   const { resolvedTheme } = useTheme();
@@ -185,11 +186,11 @@ export default function ImageUpload() {
           />
 
           <h1 className={`text-4xl font-bold`}>
-            {process.env.NEXT_PUBLIC_APP_NAME}
+            {siteConfig.name}
           </h1>
         </div>
         <p className={`text-pretty max-w-[80%]`}>
-          {process.env.NEXT_PUBLIC_APP_DESCRIPTION}
+          {siteConfig.description}
         </p>
       </div>
 

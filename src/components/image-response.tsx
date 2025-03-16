@@ -13,6 +13,7 @@ import Logo from "./logo";
 import { useTheme } from "next-themes";
 import { useTab } from "@/zustand/tab";
 import { TAB_GENERATE } from "@/lib/constants";
+import { siteConfig } from "@/config/site";
 
 type Response = {
   title: string;
@@ -196,7 +197,7 @@ function AskImageInformation() {
               <span>
                 {message.role === "user"
                   ? "You"
-                  : process.env.NEXT_PUBLIC_APP_NAME}
+                  : siteConfig.name}
               </span>
             </div>
             <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white pl-7">

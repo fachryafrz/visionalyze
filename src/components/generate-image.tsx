@@ -13,6 +13,7 @@ import { MemoizedMarkdown } from "./memoized-markdown";
 import { Message } from "@ai-sdk/ui-utils";
 import useDownloader from "react-use-downloader";
 import Typewriter from "typewriter-effect";
+import { siteConfig } from "@/config/site";
 
 export default function GenerateImage() {
   const { resolvedTheme } = useTheme();
@@ -111,7 +112,7 @@ export default function GenerateImage() {
                 <span>
                   {message.role === "user"
                     ? "You"
-                    : process.env.NEXT_PUBLIC_APP_NAME}
+                    : siteConfig.name}
                 </span>
               </div>
 
@@ -136,7 +137,7 @@ export default function GenerateImage() {
                         onClick={() => {
                           download(
                             `data:image/png;base64,${message.content}`,
-                            `${process.env.NEXT_PUBLIC_APP_NAME?.toLowerCase()}-generate-image-${Date.now()}.png`
+                            `${siteConfig.name?.toLowerCase()}-generate-image-${Date.now()}.png`
                           );
                         }}
                       >
