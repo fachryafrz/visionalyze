@@ -31,14 +31,14 @@ Visionalyze is an **AI-powered image analysis tool** that helps you extract mean
 
 ## 🛠️ Tech Stack
 
-- **Next.js 14** – React-based framework
-- **React** – JavaScript framework
-- **shadcn** – Tailwind UI component library
-- **Tailwind CSS** – Styling and UI design
-- **Vercel AI SDK** – AI integration
-- **Gemini AI** – AI image analysis by Google
-- **Flux AI** – Text to image generation by Black Forest Labs
-- **Typescript** – Static type checking
+- **Next.js 14**
+- **React**
+- **shadcn**
+- **Tailwind CSS**
+- **Vercel AI SDK**
+- **Gemini AI**
+- **Flux AI**
+- **Typescript**
 
 ## 🚀 Fork the repository
 
