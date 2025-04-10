@@ -1,5 +1,12 @@
 import { create } from "zustand";
 
+interface Response {
+  title: string;
+  description: string;
+  related_keywords: string[];
+  related_questions: string[];
+}
+
 type Image = {
   image: string;
   setImage: (image: string | null) => void;
@@ -12,6 +19,9 @@ type Image = {
 
   loading: boolean;
   setLoading: (loading: boolean) => void;
+
+  response: Response | null;
+  setResponse: (response: Response | null) => void;
 };
 
 export const useFile = create<Image>()((set) => ({
@@ -26,4 +36,7 @@ export const useFile = create<Image>()((set) => ({
 
   loading: false,
   setLoading: (loading) => set({ loading }),
+
+  response: null,
+  setResponse: (response) => set({ response }),
 }));

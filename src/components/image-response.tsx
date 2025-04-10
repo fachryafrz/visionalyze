@@ -3,7 +3,7 @@
 import { useFile } from "@/zustand/file";
 import { useChat } from "ai/react";
 import { ArrowUp, User } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 // import { toast } from "sonner";
 import { MemoizedMarkdown } from "./memoized-markdown";
 import { Input } from "./ui/input";
@@ -23,27 +23,14 @@ type Response = {
 };
 
 export default function ImageResponse() {
-  const { image, analyze } = useFile();
+  const { image, response, setResponse } = useFile();
 
   const { tab } = useTab();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [response, setResponse] = useState<Response | null>(null);
-
   useEffect(() => {
     setResponse(null);
   }, [image]);
-
-  useEffect(() => {
-    if (!analyze) {
-      setResponse(null);
-      return;
-    }
-
-    const formattedResponse = analyze.replace(/```json|```/g, "");
-
-    setResponse(JSON.parse(formattedResponse));
-  }, [analyze]);
 
   useEffect(() => {
     if (response && containerRef.current) {
@@ -65,7 +52,7 @@ export default function ImageResponse() {
           <div
             className={`dark:bg-black space-y-8 bg-white max-w-6xl mx-auto p-4 sm:p-8 rounded-xl drop-shadow-xl dark:border`}
           >
-            <ImageInformation image={response} />
+            <ImageInformation data={response} />
 
             <AskImageInformation />
           </div>
@@ -75,7 +62,7 @@ export default function ImageResponse() {
   );
 }
 
-function ImageInformation({ image }: { image: Response }) {
+function ImageInformation({ data }: { data: Response }) {
   const { chatID } = useChatID();
   const { base64IMG } = useFile();
   const { setInput, handleSubmit } = useChat({
@@ -83,27 +70,20 @@ function ImageInformation({ image }: { image: Response }) {
     api: "/api/analyze/ask",
   });
 
-  // const handleSonner = () => {
-  //   toast(`Feature coming soon!`, {
-  //     icon: <TriangleAlert />,
-  //     className: "gap-3",
-  //   });
-  // };
-
   return (
     <div className={`space-y-8`}>
       <div className={`space-y-1`}>
         <h2 className={`text-xl font-bold`}>Title</h2>
-        <p>{image.title}</p>
+        <p>{data.title}</p>
       </div>
       <div className={`space-y-1`}>
         <h2 className={`text-xl font-bold`}>Description</h2>
-        <p>{image.description}</p>
+        <p>{data.description}</p>
       </div>
       {/* <div className={`space-y-1`}>
         <h2 className={`text-xl font-bold`}>Related Keywords</h2>
         <ul className={`flex gap-1 flex-wrap`}>
-          {image.related_keywords.map((kw: string) => {
+          {data.related_keywords.map((kw: string) => {
             const keyword = kw.replace(" ", "");
 
             return (
@@ -122,7 +102,7 @@ function ImageInformation({ image }: { image: Response }) {
       <div className={`space-y-1`}>
         <h2 className={`text-xl font-bold`}>Related Questions</h2>
         <ul className={`space-y-1`}>
-          {image.related_questions.map((question: string) => (
+          {data.related_questions.map((question: string) => (
             <li key={question}>
               <form
                 onSubmit={(e) => {
@@ -194,11 +174,7 @@ function AskImageInformation() {
                 />
               )}
 
-              <span>
-                {message.role === "user"
-                  ? "You"
-                  : siteConfig.name}
-              </span>
+              <span>{message.role === "user" ? "You" : siteConfig.name}</span>
             </div>
             <div className="prose max-w-none space-y-2 [&_*]:text-foreground dark:[&_*]:text-white pl-7">
               <MemoizedMarkdown id={message.id} content={message.content} />

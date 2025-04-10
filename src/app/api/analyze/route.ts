@@ -1,8 +1,9 @@
 import { google } from "@ai-sdk/google";
-import { generateText } from "ai";
+import { generateObject } from "ai";
 import { NextResponse } from "next/server";
 import { limiter, notAllowed, tokenExpired } from "../config/limiter";
 import { whitelist } from "@/app/middleware";
+import { z } from "zod";
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
@@ -12,16 +13,26 @@ export async function POST(request: Request) {
   if (remainingToken < 0) return tokenExpired(request);
   if ((origin && !whitelist.includes(origin)) || !origin) return notAllowed();
 
-  const { text } = await generateText({
+  const { object } = await generateObject({
     model: google("gemini-2.0-flash-lite-preview-02-05"),
-    system: `You are a helpful assistant. Respond to the user in Markdown format.`,
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      related_keywords: z.array(z.string()),
+      related_questions: z.array(z.string()),
+    }),
     messages: [
       {
         role: "user",
         content: [
           {
             type: "text",
-            text: `Analyze the image and provide a plain JSON response with no markdown formatting, no backslashes or escapes (like \\n). Use this exact JSON format and ensure the output is a valid JSON object:\n\n{\n  "title": "Identify the image and provide its name.",\n  "description": "Description of the content, objects, details of the image.",\n  "related_keywords": ["Keyword1", "Keyword2", "Keyword3"],\n  "related_questions": ["Question 1?", "Question 2?", "Question 3?"]\n}\n\nEnsure that the output is raw JSON without any escape characters or extra formatting.`,
+            text: `
+Analyze the image. Use this exact JSON format and ensure the output is a valid JSON object:
+- "title": "Identify the image and provide its name.",
+- "description": "Description of the content, objects, details of the image.",
+- "related_keywords": ["Keyword1", "Keyword2", "Keyword3"],
+- "related_questions": ["Question 1?", "Question 2?", "Question 3?"]}`,
           },
           { type: "image", image },
         ],
@@ -29,5 +40,5 @@ export async function POST(request: Request) {
     ],
   });
 
-  return NextResponse.json({ text });
+  return NextResponse.json(object);
 }

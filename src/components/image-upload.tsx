@@ -29,10 +29,10 @@ export default function ImageUpload() {
     setImage,
     base64IMG,
     setBase64IMG,
-    analyze,
-    setAnalyze,
     loading,
     setLoading,
+    response,
+    setResponse,
   } = useFile();
 
   const { tab, setTab } = useTab();
@@ -42,7 +42,7 @@ export default function ImageUpload() {
     setImage(null);
     setText(null);
     setBase64IMG(null);
-    setAnalyze(null);
+    setResponse(null);
   };
 
   const convertToBase64 = (file: Blob) => {
@@ -97,13 +97,10 @@ export default function ImageUpload() {
       }
 
       if (!validURL(value)) {
-        toast(
-          `Please enter a valid URL.`,
-          {
-            icon: <OctagonX />,
-            className: "!bg-destructive gap-3",
-          }
-        )
+        toast(`Please enter a valid URL.`, {
+          icon: <OctagonX />,
+          className: "!bg-destructive gap-3",
+        });
         return;
       }
 
@@ -150,8 +147,8 @@ export default function ImageUpload() {
   const handleGenerate = async () => {
     if (!base64IMG) return;
 
-    if (analyze) {
-      setAnalyze(null);
+    if (response) {
+      setResponse(null);
     }
 
     setLoading(true);
@@ -159,7 +156,7 @@ export default function ImageUpload() {
     try {
       const { data } = await axios.post("/api/analyze", { image: base64IMG });
 
-      setAnalyze(data.text);
+      setResponse(data);
     } catch {
       toast(`Failed to analyze image.`, {
         icon: <OctagonX />,
@@ -185,13 +182,9 @@ export default function ImageUpload() {
             height={40}
           />
 
-          <h1 className={`text-4xl font-bold`}>
-            {siteConfig.name}
-          </h1>
+          <h1 className={`text-4xl font-bold`}>{siteConfig.name}</h1>
         </div>
-        <p className={`text-pretty max-w-[80%]`}>
-          {siteConfig.description}
-        </p>
+        <p className={`text-pretty max-w-[80%]`}>{siteConfig.description}</p>
       </div>
 
       <div className={`flex flex-col gap-2 items-center`}>
