@@ -53,7 +53,7 @@ git clone https://github.com/{your-username}/visionalyze.git
 
 cd visionalyze
 
-npm install
+pnpm install
 
 cp .env.example .env
 
