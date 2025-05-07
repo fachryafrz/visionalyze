@@ -109,11 +109,7 @@ export default function GenerateImage() {
                   />
                 )}
 
-                <span>
-                  {message.role === "user"
-                    ? "You"
-                    : siteConfig.name}
-                </span>
+                <span>{message.role === "user" ? "You" : siteConfig.name}</span>
               </div>
 
               <div className={`w-full max-w-2xl pl-7`}>
@@ -201,9 +197,7 @@ export default function GenerateImage() {
                   )
                   .pauseFor(5e3)
                   .deleteAll()
-                  .typeString(
-                    "Majestic dragon soaring above snowy mountains"
-                  )
+                  .typeString("Majestic dragon soaring above snowy mountains")
                   .pauseFor(5e3)
                   .deleteAll()
                   .typeString(
