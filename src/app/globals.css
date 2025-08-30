@@ -75,6 +75,15 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  @media (display-mode: standalone) {
+    * {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    body {
+      overscroll-behavior-y: contain;
+    }
+  }
   .before-content::before {
     content: attr(data-before-content) !important;
   }
