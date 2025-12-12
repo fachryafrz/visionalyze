@@ -22,7 +22,7 @@ importers:
         version: 1.2.10(zod@3.24.4)
       '@next/third-parties':
         specifier: 14.2.33
-        version: 14.2.33(next@14.2.33(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 14.2.33(next@14.2.35(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.5
         version: 2.1.14(@types/react-dom@18.3.7(@types/react@18.3.21))(@types/react@18.3.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -57,8 +57,8 @@ importers:
         specifier: ^15.0.6
         version: 15.0.11
       next:
-        specifier: 14.2.33
-        version: 14.2.33(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 14.2.35
+        version: 14.2.35(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-themes:
         specifier: ^0.4.4
         version: 0.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -279,8 +279,8 @@ packages:
   '@napi-rs/wasm-runtime@0.2.9':
     resolution: {integrity: sha512-OKRBiajrrxB9ATokgEQoG87Z25c67pCpYcCwmXYX8PBftC9pBfN18gnm/fh1wurSLEKIAt+QRFLFCQISrb66Jg==}
 
-  '@next/env@14.2.33':
-    resolution: {integrity: sha512-CgVHNZ1fRIlxkLhIX22flAZI/HmpDaZ8vwyJ/B0SDPTBuLZ1PJ+DWMjCHhqnExfmSQzA/PbZi8OAc7PAq2w9IA==}
+  '@next/env@14.2.35':
+    resolution: {integrity: sha512-DuhvCtj4t9Gwrx80dmz2F4t/zKQ4ktN8WrMwOuVzkJfBilwAwGr6v16M5eI8yCuZ63H9TTuEU09Iu2HqkzFPVQ==}
 
   '@next/eslint-plugin-next@14.2.33':
     resolution: {integrity: sha512-DQTJFSvlB+9JilwqMKJ3VPByBNGxAGFTfJ7BuFj25cVcbBy7jm88KfUN+dngM4D3+UxZ8ER2ft+WH9JccMvxyg==}
@@ -1995,8 +1995,8 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
-  next@14.2.33:
-    resolution: {integrity: sha512-GiKHLsD00t4ACm1p00VgrI0rUFAC9cRDGReKyERlM57aeEZkOQGcZTpIbsGn0b562FTPJWmYfKwplfO9EaT6ng==}
+  next@14.2.35:
+    resolution: {integrity: sha512-KhYd2Hjt/O1/1aZVX3dCwGXM1QmOV4eNM2UTacK5gipDdPN/oHHK/4oVGy7X8GMfPMsUTUEmGlsy0EY1YGAkig==}
     engines: {node: '>=18.17.0'}
     hasBin: true
     peerDependencies:
@@ -2911,7 +2911,7 @@ snapshots:
       '@tybys/wasm-util': 0.9.0
     optional: true
 
-  '@next/env@14.2.33': {}
+  '@next/env@14.2.35': {}
 
   '@next/eslint-plugin-next@14.2.33':
     dependencies:
@@ -2944,9 +2944,9 @@ snapshots:
   '@next/swc-win32-x64-msvc@14.2.33':
     optional: true
 
-  '@next/third-parties@14.2.33(next@14.2.33(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@next/third-parties@14.2.33(next@14.2.35(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
-      next: 14.2.33(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      next: 14.2.35(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       third-party-capital: 1.0.20
 
@@ -4993,9 +4993,9 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  next@14.2.33(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next@14.2.35(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@next/env': 14.2.33
+      '@next/env': 14.2.35
       '@swc/helpers': 0.5.5
       busboy: 1.6.0
       caniuse-lite: 1.0.30001727
