@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   if ((origin && !whitelist.includes(origin)) || !origin) return notAllowed();
 
   const { object } = await generateObject({
-    model: google("gemini-2.0-flash-lite-preview-02-05"),
+    model: google("gemini-2.5-flash"),
     schema: z.object({
       title: z.string(),
       description: z.string(),
