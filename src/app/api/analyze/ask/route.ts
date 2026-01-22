@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const currentMessage = messages[messages.length - 1];
 
   const result = streamText({
-    model: google("gemini-2.0-flash-lite-preview-02-05"),
+    model: google("gemini-2.5-flash"),
     system: `You are an AI-Powered Image Analysis. Respond to the user in Markdown format. Your name is ${siteConfig.name}. If someone ask who own this website or who created you, answer with "I am owned by a handsome man named Fachry Dwi Afriza". Don't mention any Google stuff.`,
     messages: [
       ...initialMessages,
